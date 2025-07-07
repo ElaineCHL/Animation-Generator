@@ -3,7 +3,7 @@ const AboutPage = () => {
     <div>
       <section className="min-h-screen bg-white text-gray-800 px-6 py-8">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold mb-6 text-center">About This Project</h1>
+          <h1 className="text-2xl font-bold mb-6 text-center">About This Project</h1>
 
           <p className="text-lg mb-6 leading-relaxed">
             This is the demo site for my Final Year Project (FYP), titled <b>"The Development of LLM Tools for Generating Educational Animations in Mathematics</b>", which is done

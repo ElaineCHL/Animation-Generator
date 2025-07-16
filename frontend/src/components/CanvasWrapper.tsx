@@ -16,7 +16,12 @@ import { Dot } from "../lib/shapes/Dot.js";
 import { Line } from "../lib/shapes/Line.js";
 import { Text } from "../lib/shapes/Text.js";
 
-const CanvasWrapper = ({ animationCode }: { animationCode: string }) => {
+type CanvasWrapperProps = {
+  animationCode: string;
+  showGrid: boolean;
+};
+
+const CanvasWrapper = ({ animationCode, showGrid }: CanvasWrapperProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const toDrawRef = useRef<Drawable[]>([]);
   const rendererRef = useRef<CanvasRenderer | null>(null);
@@ -34,8 +39,10 @@ const CanvasWrapper = ({ animationCode }: { animationCode: string }) => {
     rendererRef.current = renderer;
     animatorRef.current = animator;
 
-    const gridLines = new Grid();
-    toDraw.push(gridLines);
+    if (showGrid) {
+      const gridLines = new Grid();
+      toDraw.push(gridLines);
+    }
 
     const exec = new Function(
       "toDraw", "renderer", "animator", "Circle", "Rectangle", "Square", "Text", "Triangle", "Line", "Dot", "Group", "Grid", "Util",

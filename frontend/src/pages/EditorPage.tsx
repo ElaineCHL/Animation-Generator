@@ -7,6 +7,7 @@ const EditorPage = () => {
   const [dsl, setDsl] = useState("circle at (100, 100) radius 50 color red");
   const [tsCode, setTsCode] = useState("// Translated TypeScript code will appear here...");
   const [error, setError] = useState("");
+  const [showGrid, setShowGrid] = useState(true);
 
   async function translateDSL(dsl: string): Promise<string> {
     setError("");
@@ -55,20 +56,30 @@ const EditorPage = () => {
           </pre>
         </div>
 
-        <div>
-          <label>Animation Preview</label>
+        <div className="col-span-2">
+          <label className="block mb-2">Animation Preview<span className="px-5">
+            <label className="inline-flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={showGrid}
+                onChange={(e) => setShowGrid(e.target.checked)}
+              />
+              <span>Show Gridlines</span>
+            </label>
+          </span></label>
+
+
           {Util.isEmptyString(error) ? (
-            <CanvasWrapper animationCode={tsCode} />
+            <CanvasWrapper animationCode={tsCode} showGrid={showGrid} />
           ) : (
             <div className="border p-4 bg-yellow-100 text-red-800 rounded">
               {error}
             </div>
           )}
         </div>
-
       </div>
     </div>
   );
-}
+};
 
 export default EditorPage;

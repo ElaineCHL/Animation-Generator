@@ -7,6 +7,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <Link to={"/"} className="text-2xl font-bold text-primary tracking-tight">My Animation Tool</Link>
           <div className="flex items-center gap-4">
+            <Link to={"/"} className="btn btn-secondary"><span>Home</span></Link>
+            <Link to={"/editor"} className="btn btn-secondary"><span>Editor</span></Link>
             <Link to={"/about"} className="btn btn-secondary"><span>About</span></Link>
           </div>
         </div>

@@ -59,6 +59,7 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
   }
 
   override visitText_stmt(ctx: Text_stmtContext): string {
+    const id = ctx.id()?.ID().text || `_text${this.counter++}`;
     const text = ctx.STRING().text;
     const pos = this.visit(ctx.position());
     const size = ctx.size()?.number().text
@@ -67,7 +68,6 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
     const color = ctx.color()?.COLOR().text
       ? `, color: "${ctx.color()!.COLOR().text}"`
       : "";
-    const id = `_text${this.counter++}`;
     const code =
       `const ${id} = new Text({ ${pos}, text: ${text}${size}${color} });`;
     this.output.push(code);

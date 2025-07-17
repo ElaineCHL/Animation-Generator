@@ -112,14 +112,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_script; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterScript(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitScript(this);
-		}
 	}
 
 	public final ScriptContext script() throws RecognitionException {
@@ -173,14 +165,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitStatement(this);
-		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -253,14 +237,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_shape_stmt; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterShape_stmt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitShape_stmt(this);
-		}
 	}
 
 	public final Shape_stmtContext shape_stmt() throws RecognitionException {
@@ -396,6 +372,9 @@ public class DSLParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Text_stmtContext extends ParserRuleContext {
+		public IdContext id() {
+			return getRuleContext(IdContext.class,0);
+		}
 		public TerminalNode STRING() { return getToken(DSLParser.STRING, 0); }
 		public PositionContext position() {
 			return getRuleContext(PositionContext.class,0);
@@ -410,14 +389,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_text_stmt; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterText_stmt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitText_stmt(this);
-		}
 	}
 
 	public final Text_stmtContext text_stmt() throws RecognitionException {
@@ -430,27 +401,29 @@ public class DSLParser extends Parser {
 			setState(73);
 			match(T__9);
 			setState(74);
-			match(STRING);
+			id();
 			setState(75);
-			match(T__1);
+			match(STRING);
 			setState(76);
+			match(T__1);
+			setState(77);
 			position();
-			setState(78);
+			setState(79);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__7) {
 				{
-				setState(77);
+				setState(78);
 				size();
 				}
 			}
 
-			setState(81);
+			setState(82);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__19) {
 				{
-				setState(80);
+				setState(81);
 				color();
 				}
 			}
@@ -484,14 +457,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_animation_stmt; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterAnimation_stmt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitAnimation_stmt(this);
-		}
 	}
 
 	public final Animation_stmtContext animation_stmt() throws RecognitionException {
@@ -499,26 +464,26 @@ public class DSLParser extends Parser {
 		enterRule(_localctx, 8, RULE_animation_stmt);
 		int _la;
 		try {
-			setState(107);
+			setState(108);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__10:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(83);
-				match(T__10);
 				setState(84);
-				match(ID);
+				match(T__10);
 				setState(85);
-				match(T__11);
+				match(ID);
 				setState(86);
+				match(T__11);
+				setState(87);
 				position();
-				setState(88);
+				setState(89);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__20) {
 					{
-					setState(87);
+					setState(88);
 					duration();
 					}
 				}
@@ -528,16 +493,16 @@ public class DSLParser extends Parser {
 			case T__12:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(90);
-				match(T__12);
 				setState(91);
+				match(T__12);
+				setState(92);
 				match(ID);
-				setState(93);
+				setState(94);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__20) {
 					{
-					setState(92);
+					setState(93);
 					duration();
 					}
 				}
@@ -547,16 +512,16 @@ public class DSLParser extends Parser {
 			case T__13:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(95);
-				match(T__13);
 				setState(96);
+				match(T__13);
+				setState(97);
 				match(ID);
-				setState(98);
+				setState(99);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__20) {
 					{
-					setState(97);
+					setState(98);
 					duration();
 					}
 				}
@@ -566,20 +531,20 @@ public class DSLParser extends Parser {
 			case T__14:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(100);
-				match(T__14);
 				setState(101);
-				match(ID);
+				match(T__14);
 				setState(102);
-				match(T__11);
+				match(ID);
 				setState(103);
+				match(T__11);
+				setState(104);
 				number();
-				setState(105);
+				setState(106);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__20) {
 					{
-					setState(104);
+					setState(105);
 					duration();
 					}
 				}
@@ -608,14 +573,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_id; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterId(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitId(this);
-		}
 	}
 
 	public final IdContext id() throws RecognitionException {
@@ -624,9 +581,9 @@ public class DSLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(109);
-			match(T__15);
 			setState(110);
+			match(T__15);
+			setState(111);
 			match(ID);
 			}
 		}
@@ -653,14 +610,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_position; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterPosition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitPosition(this);
-		}
 	}
 
 	public final PositionContext position() throws RecognitionException {
@@ -669,15 +618,15 @@ public class DSLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(112);
-			match(T__16);
 			setState(113);
-			number();
+			match(T__16);
 			setState(114);
-			match(T__17);
-			setState(115);
 			number();
+			setState(115);
+			match(T__17);
 			setState(116);
+			number();
+			setState(117);
 			match(T__18);
 			}
 		}
@@ -699,14 +648,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_color; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterColor(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitColor(this);
-		}
 	}
 
 	public final ColorContext color() throws RecognitionException {
@@ -715,9 +656,9 @@ public class DSLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(118);
-			match(T__19);
 			setState(119);
+			match(T__19);
+			setState(120);
 			match(COLOR);
 			}
 		}
@@ -741,14 +682,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_size; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterSize(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitSize(this);
-		}
 	}
 
 	public final SizeContext size() throws RecognitionException {
@@ -757,9 +690,9 @@ public class DSLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
-			match(T__7);
 			setState(122);
+			match(T__7);
+			setState(123);
 			number();
 			}
 		}
@@ -783,14 +716,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_duration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterDuration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitDuration(this);
-		}
 	}
 
 	public final DurationContext duration() throws RecognitionException {
@@ -799,11 +724,11 @@ public class DSLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(124);
-			match(T__20);
 			setState(125);
-			number();
+			match(T__20);
 			setState(126);
+			number();
+			setState(127);
 			match(T__21);
 			}
 		}
@@ -825,14 +750,6 @@ public class DSLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_number; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).enterNumber(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DSLListener ) ((DSLListener)listener).exitNumber(this);
-		}
 	}
 
 	public final NumberContext number() throws RecognitionException {
@@ -841,7 +758,7 @@ public class DSLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(128);
+			setState(129);
 			match(NUMBER);
 			}
 		}
@@ -857,7 +774,7 @@ public class DSLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u001b\u0083\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
+		"\u0004\u0001\u001b\u0084\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
 		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004"+
 		"\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007"+
 		"\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0001\u0000\u0005\u0000"+
@@ -869,69 +786,69 @@ public class DSLParser extends Parser {
 		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
 		"\u0002\u0001\u0002\u0003\u0002?\b\u0002\u0001\u0002\u0001\u0002\u0001"+
 		"\u0002\u0001\u0002\u0001\u0002\u0003\u0002F\b\u0002\u0003\u0002H\b\u0002"+
-		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0003\u0003"+
-		"O\b\u0003\u0001\u0003\u0003\u0003R\b\u0003\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0003\u0004Y\b\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0003\u0004^\b\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0003\u0004c\b\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0003\u0004j\b\u0004\u0003\u0004l\b\u0004\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
-		"\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0001\b\u0001"+
-		"\b\u0001\b\u0001\t\u0001\t\u0001\t\u0001\t\u0001\n\u0001\n\u0001\n\u0000"+
-		"\u0000\u000b\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0000"+
-		"\u0000\u008a\u0000\u0019\u0001\u0000\u0000\u0000\u0002!\u0001\u0000\u0000"+
-		"\u0000\u0004G\u0001\u0000\u0000\u0000\u0006I\u0001\u0000\u0000\u0000\b"+
-		"k\u0001\u0000\u0000\u0000\nm\u0001\u0000\u0000\u0000\fp\u0001\u0000\u0000"+
-		"\u0000\u000ev\u0001\u0000\u0000\u0000\u0010y\u0001\u0000\u0000\u0000\u0012"+
-		"|\u0001\u0000\u0000\u0000\u0014\u0080\u0001\u0000\u0000\u0000\u0016\u0018"+
-		"\u0003\u0002\u0001\u0000\u0017\u0016\u0001\u0000\u0000\u0000\u0018\u001b"+
-		"\u0001\u0000\u0000\u0000\u0019\u0017\u0001\u0000\u0000\u0000\u0019\u001a"+
-		"\u0001\u0000\u0000\u0000\u001a\u001c\u0001\u0000\u0000\u0000\u001b\u0019"+
-		"\u0001\u0000\u0000\u0000\u001c\u001d\u0005\u0000\u0000\u0001\u001d\u0001"+
-		"\u0001\u0000\u0000\u0000\u001e\"\u0003\u0004\u0002\u0000\u001f\"\u0003"+
-		"\u0006\u0003\u0000 \"\u0003\b\u0004\u0000!\u001e\u0001\u0000\u0000\u0000"+
-		"!\u001f\u0001\u0000\u0000\u0000! \u0001\u0000\u0000\u0000\"\u0003\u0001"+
-		"\u0000\u0000\u0000#$\u0005\u0001\u0000\u0000$%\u0003\n\u0005\u0000%&\u0005"+
-		"\u0002\u0000\u0000&\'\u0003\f\u0006\u0000\'(\u0005\u0003\u0000\u0000("+
-		"*\u0003\u0014\n\u0000)+\u0003\u000e\u0007\u0000*)\u0001\u0000\u0000\u0000"+
-		"*+\u0001\u0000\u0000\u0000+H\u0001\u0000\u0000\u0000,-\u0005\u0004\u0000"+
-		"\u0000-.\u0003\n\u0005\u0000./\u0005\u0002\u0000\u0000/0\u0003\f\u0006"+
-		"\u000001\u0005\u0005\u0000\u000012\u0003\u0014\n\u000023\u0005\u0006\u0000"+
-		"\u000035\u0003\u0014\n\u000046\u0003\u000e\u0007\u000054\u0001\u0000\u0000"+
-		"\u000056\u0001\u0000\u0000\u00006H\u0001\u0000\u0000\u000078\u0005\u0007"+
-		"\u0000\u000089\u0003\n\u0005\u00009:\u0005\u0002\u0000\u0000:;\u0003\f"+
-		"\u0006\u0000;<\u0005\b\u0000\u0000<>\u0003\u0014\n\u0000=?\u0003\u000e"+
-		"\u0007\u0000>=\u0001\u0000\u0000\u0000>?\u0001\u0000\u0000\u0000?H\u0001"+
-		"\u0000\u0000\u0000@A\u0005\t\u0000\u0000AB\u0003\n\u0005\u0000BC\u0005"+
-		"\u0002\u0000\u0000CE\u0003\f\u0006\u0000DF\u0003\u000e\u0007\u0000ED\u0001"+
-		"\u0000\u0000\u0000EF\u0001\u0000\u0000\u0000FH\u0001\u0000\u0000\u0000"+
-		"G#\u0001\u0000\u0000\u0000G,\u0001\u0000\u0000\u0000G7\u0001\u0000\u0000"+
-		"\u0000G@\u0001\u0000\u0000\u0000H\u0005\u0001\u0000\u0000\u0000IJ\u0005"+
-		"\n\u0000\u0000JK\u0005\u0017\u0000\u0000KL\u0005\u0002\u0000\u0000LN\u0003"+
-		"\f\u0006\u0000MO\u0003\u0010\b\u0000NM\u0001\u0000\u0000\u0000NO\u0001"+
-		"\u0000\u0000\u0000OQ\u0001\u0000\u0000\u0000PR\u0003\u000e\u0007\u0000"+
-		"QP\u0001\u0000\u0000\u0000QR\u0001\u0000\u0000\u0000R\u0007\u0001\u0000"+
-		"\u0000\u0000ST\u0005\u000b\u0000\u0000TU\u0005\u0019\u0000\u0000UV\u0005"+
-		"\f\u0000\u0000VX\u0003\f\u0006\u0000WY\u0003\u0012\t\u0000XW\u0001\u0000"+
-		"\u0000\u0000XY\u0001\u0000\u0000\u0000Yl\u0001\u0000\u0000\u0000Z[\u0005"+
-		"\r\u0000\u0000[]\u0005\u0019\u0000\u0000\\^\u0003\u0012\t\u0000]\\\u0001"+
-		"\u0000\u0000\u0000]^\u0001\u0000\u0000\u0000^l\u0001\u0000\u0000\u0000"+
-		"_`\u0005\u000e\u0000\u0000`b\u0005\u0019\u0000\u0000ac\u0003\u0012\t\u0000"+
-		"ba\u0001\u0000\u0000\u0000bc\u0001\u0000\u0000\u0000cl\u0001\u0000\u0000"+
-		"\u0000de\u0005\u000f\u0000\u0000ef\u0005\u0019\u0000\u0000fg\u0005\f\u0000"+
-		"\u0000gi\u0003\u0014\n\u0000hj\u0003\u0012\t\u0000ih\u0001\u0000\u0000"+
-		"\u0000ij\u0001\u0000\u0000\u0000jl\u0001\u0000\u0000\u0000kS\u0001\u0000"+
-		"\u0000\u0000kZ\u0001\u0000\u0000\u0000k_\u0001\u0000\u0000\u0000kd\u0001"+
-		"\u0000\u0000\u0000l\t\u0001\u0000\u0000\u0000mn\u0005\u0010\u0000\u0000"+
-		"no\u0005\u0019\u0000\u0000o\u000b\u0001\u0000\u0000\u0000pq\u0005\u0011"+
-		"\u0000\u0000qr\u0003\u0014\n\u0000rs\u0005\u0012\u0000\u0000st\u0003\u0014"+
-		"\n\u0000tu\u0005\u0013\u0000\u0000u\r\u0001\u0000\u0000\u0000vw\u0005"+
-		"\u0014\u0000\u0000wx\u0005\u0018\u0000\u0000x\u000f\u0001\u0000\u0000"+
-		"\u0000yz\u0005\b\u0000\u0000z{\u0003\u0014\n\u0000{\u0011\u0001\u0000"+
-		"\u0000\u0000|}\u0005\u0015\u0000\u0000}~\u0003\u0014\n\u0000~\u007f\u0005"+
-		"\u0016\u0000\u0000\u007f\u0013\u0001\u0000\u0000\u0000\u0080\u0081\u0005"+
-		"\u001a\u0000\u0000\u0081\u0015\u0001\u0000\u0000\u0000\u000e\u0019!*5"+
-		">EGNQX]bik";
+		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
+		"\u0003\u0003P\b\u0003\u0001\u0003\u0003\u0003S\b\u0003\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004Z\b\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0004\u0003\u0004_\b\u0004\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0003\u0004d\b\u0004\u0001\u0004\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0004\u0003\u0004k\b\u0004\u0003\u0004m\b\u0004"+
+		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\u0007"+
+		"\u0001\b\u0001\b\u0001\b\u0001\t\u0001\t\u0001\t\u0001\t\u0001\n\u0001"+
+		"\n\u0001\n\u0000\u0000\u000b\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010"+
+		"\u0012\u0014\u0000\u0000\u008b\u0000\u0019\u0001\u0000\u0000\u0000\u0002"+
+		"!\u0001\u0000\u0000\u0000\u0004G\u0001\u0000\u0000\u0000\u0006I\u0001"+
+		"\u0000\u0000\u0000\bl\u0001\u0000\u0000\u0000\nn\u0001\u0000\u0000\u0000"+
+		"\fq\u0001\u0000\u0000\u0000\u000ew\u0001\u0000\u0000\u0000\u0010z\u0001"+
+		"\u0000\u0000\u0000\u0012}\u0001\u0000\u0000\u0000\u0014\u0081\u0001\u0000"+
+		"\u0000\u0000\u0016\u0018\u0003\u0002\u0001\u0000\u0017\u0016\u0001\u0000"+
+		"\u0000\u0000\u0018\u001b\u0001\u0000\u0000\u0000\u0019\u0017\u0001\u0000"+
+		"\u0000\u0000\u0019\u001a\u0001\u0000\u0000\u0000\u001a\u001c\u0001\u0000"+
+		"\u0000\u0000\u001b\u0019\u0001\u0000\u0000\u0000\u001c\u001d\u0005\u0000"+
+		"\u0000\u0001\u001d\u0001\u0001\u0000\u0000\u0000\u001e\"\u0003\u0004\u0002"+
+		"\u0000\u001f\"\u0003\u0006\u0003\u0000 \"\u0003\b\u0004\u0000!\u001e\u0001"+
+		"\u0000\u0000\u0000!\u001f\u0001\u0000\u0000\u0000! \u0001\u0000\u0000"+
+		"\u0000\"\u0003\u0001\u0000\u0000\u0000#$\u0005\u0001\u0000\u0000$%\u0003"+
+		"\n\u0005\u0000%&\u0005\u0002\u0000\u0000&\'\u0003\f\u0006\u0000\'(\u0005"+
+		"\u0003\u0000\u0000(*\u0003\u0014\n\u0000)+\u0003\u000e\u0007\u0000*)\u0001"+
+		"\u0000\u0000\u0000*+\u0001\u0000\u0000\u0000+H\u0001\u0000\u0000\u0000"+
+		",-\u0005\u0004\u0000\u0000-.\u0003\n\u0005\u0000./\u0005\u0002\u0000\u0000"+
+		"/0\u0003\f\u0006\u000001\u0005\u0005\u0000\u000012\u0003\u0014\n\u0000"+
+		"23\u0005\u0006\u0000\u000035\u0003\u0014\n\u000046\u0003\u000e\u0007\u0000"+
+		"54\u0001\u0000\u0000\u000056\u0001\u0000\u0000\u00006H\u0001\u0000\u0000"+
+		"\u000078\u0005\u0007\u0000\u000089\u0003\n\u0005\u00009:\u0005\u0002\u0000"+
+		"\u0000:;\u0003\f\u0006\u0000;<\u0005\b\u0000\u0000<>\u0003\u0014\n\u0000"+
+		"=?\u0003\u000e\u0007\u0000>=\u0001\u0000\u0000\u0000>?\u0001\u0000\u0000"+
+		"\u0000?H\u0001\u0000\u0000\u0000@A\u0005\t\u0000\u0000AB\u0003\n\u0005"+
+		"\u0000BC\u0005\u0002\u0000\u0000CE\u0003\f\u0006\u0000DF\u0003\u000e\u0007"+
+		"\u0000ED\u0001\u0000\u0000\u0000EF\u0001\u0000\u0000\u0000FH\u0001\u0000"+
+		"\u0000\u0000G#\u0001\u0000\u0000\u0000G,\u0001\u0000\u0000\u0000G7\u0001"+
+		"\u0000\u0000\u0000G@\u0001\u0000\u0000\u0000H\u0005\u0001\u0000\u0000"+
+		"\u0000IJ\u0005\n\u0000\u0000JK\u0003\n\u0005\u0000KL\u0005\u0017\u0000"+
+		"\u0000LM\u0005\u0002\u0000\u0000MO\u0003\f\u0006\u0000NP\u0003\u0010\b"+
+		"\u0000ON\u0001\u0000\u0000\u0000OP\u0001\u0000\u0000\u0000PR\u0001\u0000"+
+		"\u0000\u0000QS\u0003\u000e\u0007\u0000RQ\u0001\u0000\u0000\u0000RS\u0001"+
+		"\u0000\u0000\u0000S\u0007\u0001\u0000\u0000\u0000TU\u0005\u000b\u0000"+
+		"\u0000UV\u0005\u0019\u0000\u0000VW\u0005\f\u0000\u0000WY\u0003\f\u0006"+
+		"\u0000XZ\u0003\u0012\t\u0000YX\u0001\u0000\u0000\u0000YZ\u0001\u0000\u0000"+
+		"\u0000Zm\u0001\u0000\u0000\u0000[\\\u0005\r\u0000\u0000\\^\u0005\u0019"+
+		"\u0000\u0000]_\u0003\u0012\t\u0000^]\u0001\u0000\u0000\u0000^_\u0001\u0000"+
+		"\u0000\u0000_m\u0001\u0000\u0000\u0000`a\u0005\u000e\u0000\u0000ac\u0005"+
+		"\u0019\u0000\u0000bd\u0003\u0012\t\u0000cb\u0001\u0000\u0000\u0000cd\u0001"+
+		"\u0000\u0000\u0000dm\u0001\u0000\u0000\u0000ef\u0005\u000f\u0000\u0000"+
+		"fg\u0005\u0019\u0000\u0000gh\u0005\f\u0000\u0000hj\u0003\u0014\n\u0000"+
+		"ik\u0003\u0012\t\u0000ji\u0001\u0000\u0000\u0000jk\u0001\u0000\u0000\u0000"+
+		"km\u0001\u0000\u0000\u0000lT\u0001\u0000\u0000\u0000l[\u0001\u0000\u0000"+
+		"\u0000l`\u0001\u0000\u0000\u0000le\u0001\u0000\u0000\u0000m\t\u0001\u0000"+
+		"\u0000\u0000no\u0005\u0010\u0000\u0000op\u0005\u0019\u0000\u0000p\u000b"+
+		"\u0001\u0000\u0000\u0000qr\u0005\u0011\u0000\u0000rs\u0003\u0014\n\u0000"+
+		"st\u0005\u0012\u0000\u0000tu\u0003\u0014\n\u0000uv\u0005\u0013\u0000\u0000"+
+		"v\r\u0001\u0000\u0000\u0000wx\u0005\u0014\u0000\u0000xy\u0005\u0018\u0000"+
+		"\u0000y\u000f\u0001\u0000\u0000\u0000z{\u0005\b\u0000\u0000{|\u0003\u0014"+
+		"\n\u0000|\u0011\u0001\u0000\u0000\u0000}~\u0005\u0015\u0000\u0000~\u007f"+
+		"\u0003\u0014\n\u0000\u007f\u0080\u0005\u0016\u0000\u0000\u0080\u0013\u0001"+
+		"\u0000\u0000\u0000\u0081\u0082\u0005\u001a\u0000\u0000\u0082\u0015\u0001"+
+		"\u0000\u0000\u0000\u000e\u0019!*5>EGORY^cjl";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -18,7 +18,7 @@ shape_stmt
     ;
 
 text_stmt
-    : 'text' STRING 'at' position size? color?
+    : 'text' id STRING 'at' position size? color?
     ;
 
 animation_stmt

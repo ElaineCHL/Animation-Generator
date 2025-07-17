@@ -6,7 +6,6 @@ import {
   Shape_stmtContext,
   Text_stmtContext,
   Animation_stmtContext,
-  IdContext,
   PositionContext,
   ColorContext,
   SizeContext,
@@ -41,10 +40,6 @@ export abstract class AbstractDSLVisitor<Result>
   }
 
   visitAnimation_stmt(ctx: Animation_stmtContext): Result {
-    return this.visitChildren(ctx);
-  }
-
-  visitId(ctx: IdContext): Result {
     return this.visitChildren(ctx);
   }
 

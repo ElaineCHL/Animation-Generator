@@ -21,9 +21,9 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
   }
 
   override visitShape_stmt(ctx: Shape_stmtContext): string {
-    let shapeType = ctx.start.text;
+    let shapeType = ctx.getChild(2).text;
     const pos = this.visit(ctx.position());
-    const id = ctx.id()?.ID().text || `_${shapeType}${this.counter++}`;
+    const id = ctx.ID().text;
     this.idMap.set(id, id);
     const color = ctx.color()?.COLOR().text
       ? `"${ctx.color()?.COLOR().text}"`
@@ -58,7 +58,7 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
   }
 
   override visitText_stmt(ctx: Text_stmtContext): string {
-    const id = ctx.id()?.ID().text || `_text${this.counter++}`;
+    const id = ctx.ID().text;
     const text = ctx.STRING().text;
     const pos = this.visit(ctx.position());
     const size = ctx.size()?.number().text

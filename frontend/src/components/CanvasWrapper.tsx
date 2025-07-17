@@ -19,61 +19,67 @@ import { Text } from "../lib/shapes/Text.js";
 type CanvasWrapperProps = {
   animationCode: string;
   showGrid: boolean;
+  onError?: (error: string) => void;
 };
 
-const CanvasWrapper = ({ animationCode, showGrid }: CanvasWrapperProps) => {
+
+const CanvasWrapper = ({ animationCode, showGrid, onError }: CanvasWrapperProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const toDrawRef = useRef<Drawable[]>([]);
   const rendererRef = useRef<CanvasRenderer | null>(null);
   const animatorRef = useRef<Animator | null>(null);
 
   const initialize = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-    const toDraw: Drawable[] = [];
-    const renderer = new CanvasRenderer(canvas, toDraw);
-    const animator = new Animator(renderer);
+  const toDraw: Drawable[] = [];
+  const renderer = new CanvasRenderer(canvas, toDraw);
+  const animator = new Animator(renderer);
 
-    toDrawRef.current = toDraw;
-    rendererRef.current = renderer;
-    animatorRef.current = animator;
+  toDrawRef.current = toDraw;
+  rendererRef.current = renderer;
+  animatorRef.current = animator;
 
-    if (showGrid) {
-      const gridLines = new Grid();
-      toDraw.push(gridLines);
+  if (showGrid) {
+    const gridLines = new Grid();
+    toDraw.push(gridLines);
+  }
+
+  try {
+    const exec = new Function(
+      "toDraw", "renderer", "animator", "Circle", "Rectangle", "Square", "Text", "Triangle", "Line", "Dot", "Group", "Grid", "Util",
+      `"use strict"; return (async function() { ${animationCode} })();`
+    );
+
+    const promise = exec(
+      toDraw, renderer, animator,
+      Circle, Rectangle, Square, Text, Triangle, Line, Dot,
+      Group, Grid, Util
+    );
+
+    if (promise instanceof Promise) {
+      promise.catch((err: Error) => {
+        console.error("Error during async execution:", err);
+        onError?.(err.message); // <- Call parent error handler
+      });
     }
+  } catch (err: unknown) {
+    console.error("Error evaluating code:", err);
+    const message = err instanceof Error ? err.message : "Unknown error";
+    onError?.(message); // <- Call parent error handler
+  }
 
-    try {
-      const exec = new Function(
-        "toDraw", "renderer", "animator", "Circle", "Rectangle", "Square", "Text", "Triangle", "Line", "Dot", "Group", "Grid", "Util",
-        `"use strict"; return (async function() { ${animationCode} })();`
-      );
+  animator.start();
+};
 
-      const promise = exec(
-        toDraw, renderer, animator,
-        Circle, Rectangle, Square, Text, Triangle, Line, Dot,
-        Group, Grid, Util
-      );
-
-      if (promise instanceof Promise) {
-        promise.catch((err: Error) => {
-          console.error("Error during async execution:", err);
-        });
-      }
-    } catch (err) {
-      console.error("Error evaluating code:", err);
-    }
-
-    animator.start();
-  };
 
   useEffect(() => {
     return () => {
       animatorRef.current?.stop();
     };
-  }, [animationCode]);
-  
+  }, [animationCode, showGrid]);
+
   initialize();
   return (
     <div >

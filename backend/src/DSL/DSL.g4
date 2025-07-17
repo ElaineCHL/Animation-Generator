@@ -11,14 +11,14 @@ statement
     ;
 
 shape_stmt
-    : 'circle' id 'at' position 'radius' number color?
-    | 'rectangle' id 'at' position 'width' number 'height' number color?
-    | 'triangle' id 'at' position 'size' number color?
-    | 'dot' id 'at' position color?
+    : ID '=' 'circle' 'at' position 'radius' number color?
+    | ID '=' 'rectangle' 'at' position 'width' number 'height' number color?
+    | ID '=' 'triangle' 'at' position 'size' number color?
+    | ID '=' 'dot' 'at' position color?
     ;
 
 text_stmt
-    : 'text' id STRING 'at' position size? color?
+    : ID '=' 'text' STRING 'at' position size? color?
     ;
 
 animation_stmt
@@ -30,7 +30,6 @@ animation_stmt
     ;
 
 // Components
-id            : 'id=' ID ;
 position      : '(' number ',' number ')' ;
 color         : 'color' COLOR ;
 size          : 'size' number ;

@@ -4,8 +4,8 @@ import AxiosInstance from "../lib/axios";
 import CanvasWrapper from "../components/CanvasWrapper";
 
 const EditorPage = () => {
-  const [dsl, setDsl] = useState("circle id=_circle1 at (100, 100) radius 50 color red");
-  const [tsCode, setTsCode] = useState("// Translated TypeScript code will appear here...");
+  const [dsl, setDsl] = useState("c1 = circle at (100, 100) radius 50 color red");
+  const [tsCode, setTsCode] = useState("Translated TypeScript code will appear here...");
   const [error, setError] = useState("");
   const [showGrid, setShowGrid] = useState(true);
 
@@ -20,7 +20,7 @@ const EditorPage = () => {
       let errorMessage = "";
       if (typeof error === "object" && error !== null && "response" in error) {
         // @ts-expect-error: error.response may exist if error is AxiosError
-        errorMessage = "// " + (error.response?.data?.message || "Error: Unable to translate");
+        errorMessage = error.response?.data?.message || "Translation Error: Unable to translate";
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
@@ -72,7 +72,11 @@ const EditorPage = () => {
 
 
           {Util.isEmptyString(error) ? (
-            <CanvasWrapper animationCode={tsCode} showGrid={showGrid} />
+            <CanvasWrapper
+              animationCode={tsCode}
+              showGrid={showGrid}
+              onError={(errMsg) => setError("Canvas error: " + errMsg)}
+            />
           ) : (
             <div className="border p-4 bg-yellow-100 text-red-800 rounded">
               {error}

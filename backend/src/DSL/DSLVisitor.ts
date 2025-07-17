@@ -8,7 +8,6 @@ import { StatementContext } from "./DSLParser";
 import { Shape_stmtContext } from "./DSLParser";
 import { Text_stmtContext } from "./DSLParser";
 import { Animation_stmtContext } from "./DSLParser";
-import { IdContext } from "./DSLParser";
 import { PositionContext } from "./DSLParser";
 import { ColorContext } from "./DSLParser";
 import { SizeContext } from "./DSLParser";
@@ -58,13 +57,6 @@ export interface DSLVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitAnimation_stmt?: (ctx: Animation_stmtContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `DSLParser.id`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitId?: (ctx: IdContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `DSLParser.position`.

@@ -117,8 +117,8 @@ export class Text extends Shape {
 
   rotate(
     degree: number,
-    centerOfRotation?: { x: number; y: number },
     duration: number = 1000,
+    centerOfRotation?: { x: number; y: number },
   ): Promise<void> {
     const targetRadians = (degree * Math.PI) / 180;
     const startRotation = this.rotation;

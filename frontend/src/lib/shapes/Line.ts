@@ -189,8 +189,8 @@ export class Line extends Shape {
 
   public rotate(
     degree: number,
-    centerOfRotation?: { x: number; y: number },
     duration: number = 1000,
+    centerOfRotation?: { x: number; y: number },
   ): Promise<void> {
     const radians = (degree * Math.PI) / 180;
     const startStart = { ...this.start };

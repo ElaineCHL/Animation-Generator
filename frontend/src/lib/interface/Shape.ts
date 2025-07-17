@@ -12,7 +12,7 @@ export abstract class Shape extends Drawable {
   public abstract scale(factor: number, duration?: number): Promise<void>;
   public abstract rotate(
     degree: number,
-    centerOfRotation?: { x: number; y: number },
     duration?: number,
+    centerOfRotation?: { x: number; y: number },
   ): Promise<void>;
 }

@@ -22,7 +22,7 @@ export class Rectangle extends Shape {
   constructor({
     centerX,
     centerY,
-    color = "rgba(0, 255, 255, 0.5)",
+    color = "black",
     fill = false,
     text = "",
     width,

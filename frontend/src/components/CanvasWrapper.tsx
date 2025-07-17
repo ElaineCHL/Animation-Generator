@@ -44,14 +44,27 @@ const CanvasWrapper = ({ animationCode, showGrid }: CanvasWrapperProps) => {
       toDraw.push(gridLines);
     }
 
-    const exec = new Function(
-      "toDraw", "renderer", "animator", "Circle", "Rectangle", "Square", "Text", "Triangle", "Line", "Dot", "Group", "Grid", "Util",
-      `"use strict"; return (async function() { ${animationCode} })();`
-    );
+    try {
+      const exec = new Function(
+        "toDraw", "renderer", "animator", "Circle", "Rectangle", "Square", "Text", "Triangle", "Line", "Dot", "Group", "Grid", "Util",
+        `"use strict"; return (async function() { ${animationCode} })();`
+      );
 
-    exec(toDraw, renderer, animator, Circle, Rectangle, Square, Text, Triangle, Line, Dot, Group, Grid, Util).catch((err: Error) => {
-      console.error("Error evaluating response:", err);
-    });
+      const promise = exec(
+        toDraw, renderer, animator,
+        Circle, Rectangle, Square, Text, Triangle, Line, Dot,
+        Group, Grid, Util
+      );
+
+      if (promise instanceof Promise) {
+        promise.catch((err: Error) => {
+          console.error("Error during async execution:", err);
+        });
+      }
+    } catch (err) {
+      console.error("Error evaluating code:", err);
+    }
+
     animator.start();
   };
 

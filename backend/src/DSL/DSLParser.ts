@@ -49,11 +49,16 @@ export class DSLParser extends Parser {
 	public static readonly T__19 = 20;
 	public static readonly T__20 = 21;
 	public static readonly T__21 = 22;
-	public static readonly STRING = 23;
-	public static readonly COLOR = 24;
-	public static readonly ID = 25;
-	public static readonly NUMBER = 26;
-	public static readonly WS = 27;
+	public static readonly T__22 = 23;
+	public static readonly T__23 = 24;
+	public static readonly T__24 = 25;
+	public static readonly STRING = 26;
+	public static readonly COLOR = 27;
+	public static readonly ID = 28;
+	public static readonly NUMBER = 29;
+	public static readonly LINE_COMMENT = 30;
+	public static readonly BLOCK_COMMENT = 31;
+	public static readonly WS = 32;
 	public static readonly RULE_script = 0;
 	public static readonly RULE_statement = 1;
 	public static readonly RULE_shape_stmt = 2;
@@ -74,14 +79,15 @@ export class DSLParser extends Parser {
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
 		undefined, "'circle'", "'at'", "'radius'", "'rectangle'", "'width'", "'height'", 
 		"'triangle'", "'size'", "'dot'", "'text'", "'move'", "'to'", "'fadein'", 
-		"'fadeout'", "'scale'", "'id='", "'('", "','", "')'", "'color'", "'duration'", 
-		"'s'",
+		"'fadeout'", "'scale'", "'rotate'", "'by'", "'around'", "'id='", "'('", 
+		"','", "')'", "'color'", "'duration'", "'s'",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, undefined, "STRING", "COLOR", "ID", "NUMBER", "WS",
+		undefined, undefined, undefined, undefined, undefined, "STRING", "COLOR", 
+		"ID", "NUMBER", "LINE_COMMENT", "BLOCK_COMMENT", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(DSLParser._LITERAL_NAMES, DSLParser._SYMBOLIC_NAMES, []);
 
@@ -120,7 +126,7 @@ export class DSLParser extends Parser {
 			this.state = 25;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << DSLParser.T__0) | (1 << DSLParser.T__3) | (1 << DSLParser.T__6) | (1 << DSLParser.T__8) | (1 << DSLParser.T__9) | (1 << DSLParser.T__10) | (1 << DSLParser.T__12) | (1 << DSLParser.T__13) | (1 << DSLParser.T__14))) !== 0)) {
+			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << DSLParser.T__0) | (1 << DSLParser.T__3) | (1 << DSLParser.T__6) | (1 << DSLParser.T__8) | (1 << DSLParser.T__9) | (1 << DSLParser.T__10) | (1 << DSLParser.T__12) | (1 << DSLParser.T__13) | (1 << DSLParser.T__14) | (1 << DSLParser.T__15))) !== 0)) {
 				{
 				{
 				this.state = 22;
@@ -178,6 +184,7 @@ export class DSLParser extends Parser {
 			case DSLParser.T__12:
 			case DSLParser.T__13:
 			case DSLParser.T__14:
+			case DSLParser.T__15:
 				this.enterOuterAlt(_localctx, 3);
 				{
 				this.state = 32;
@@ -229,7 +236,7 @@ export class DSLParser extends Parser {
 				this.state = 42;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === DSLParser.T__19) {
+				if (_la === DSLParser.T__22) {
 					{
 					this.state = 41;
 					this.color();
@@ -260,7 +267,7 @@ export class DSLParser extends Parser {
 				this.state = 53;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === DSLParser.T__19) {
+				if (_la === DSLParser.T__22) {
 					{
 					this.state = 52;
 					this.color();
@@ -287,7 +294,7 @@ export class DSLParser extends Parser {
 				this.state = 62;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === DSLParser.T__19) {
+				if (_la === DSLParser.T__22) {
 					{
 					this.state = 61;
 					this.color();
@@ -310,7 +317,7 @@ export class DSLParser extends Parser {
 				this.state = 69;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === DSLParser.T__19) {
+				if (_la === DSLParser.T__22) {
 					{
 					this.state = 68;
 					this.color();
@@ -368,7 +375,7 @@ export class DSLParser extends Parser {
 			this.state = 82;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la === DSLParser.T__19) {
+			if (_la === DSLParser.T__22) {
 				{
 				this.state = 81;
 				this.color();
@@ -397,7 +404,7 @@ export class DSLParser extends Parser {
 		this.enterRule(_localctx, 8, DSLParser.RULE_animation_stmt);
 		let _la: number;
 		try {
-			this.state = 108;
+			this.state = 119;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case DSLParser.T__10:
@@ -414,7 +421,7 @@ export class DSLParser extends Parser {
 				this.state = 89;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === DSLParser.T__20) {
+				if (_la === DSLParser.T__23) {
 					{
 					this.state = 88;
 					this.duration();
@@ -433,7 +440,7 @@ export class DSLParser extends Parser {
 				this.state = 94;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === DSLParser.T__20) {
+				if (_la === DSLParser.T__23) {
 					{
 					this.state = 93;
 					this.duration();
@@ -452,7 +459,7 @@ export class DSLParser extends Parser {
 				this.state = 99;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === DSLParser.T__20) {
+				if (_la === DSLParser.T__23) {
 					{
 					this.state = 98;
 					this.duration();
@@ -475,9 +482,44 @@ export class DSLParser extends Parser {
 				this.state = 106;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la === DSLParser.T__20) {
+				if (_la === DSLParser.T__23) {
 					{
 					this.state = 105;
+					this.duration();
+					}
+				}
+
+				}
+				break;
+			case DSLParser.T__15:
+				this.enterOuterAlt(_localctx, 5);
+				{
+				this.state = 108;
+				this.match(DSLParser.T__15);
+				this.state = 109;
+				this.match(DSLParser.ID);
+				this.state = 110;
+				this.match(DSLParser.T__16);
+				this.state = 111;
+				this.number();
+				this.state = 114;
+				this._errHandler.sync(this);
+				_la = this._input.LA(1);
+				if (_la === DSLParser.T__17) {
+					{
+					this.state = 112;
+					this.match(DSLParser.T__17);
+					this.state = 113;
+					this.position();
+					}
+				}
+
+				this.state = 117;
+				this._errHandler.sync(this);
+				_la = this._input.LA(1);
+				if (_la === DSLParser.T__23) {
+					{
+					this.state = 116;
 					this.duration();
 					}
 				}
@@ -509,9 +551,9 @@ export class DSLParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 110;
-			this.match(DSLParser.T__15);
-			this.state = 111;
+			this.state = 121;
+			this.match(DSLParser.T__18);
+			this.state = 122;
 			this.match(DSLParser.ID);
 			}
 		}
@@ -536,16 +578,16 @@ export class DSLParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 113;
-			this.match(DSLParser.T__16);
-			this.state = 114;
+			this.state = 124;
+			this.match(DSLParser.T__19);
+			this.state = 125;
 			this.number();
-			this.state = 115;
-			this.match(DSLParser.T__17);
-			this.state = 116;
+			this.state = 126;
+			this.match(DSLParser.T__20);
+			this.state = 127;
 			this.number();
-			this.state = 117;
-			this.match(DSLParser.T__18);
+			this.state = 128;
+			this.match(DSLParser.T__21);
 			}
 		}
 		catch (re) {
@@ -569,9 +611,9 @@ export class DSLParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 119;
-			this.match(DSLParser.T__19);
-			this.state = 120;
+			this.state = 130;
+			this.match(DSLParser.T__22);
+			this.state = 131;
 			this.match(DSLParser.COLOR);
 			}
 		}
@@ -596,9 +638,9 @@ export class DSLParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 122;
+			this.state = 133;
 			this.match(DSLParser.T__7);
-			this.state = 123;
+			this.state = 134;
 			this.number();
 			}
 		}
@@ -623,12 +665,12 @@ export class DSLParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 125;
-			this.match(DSLParser.T__20);
-			this.state = 126;
+			this.state = 136;
+			this.match(DSLParser.T__23);
+			this.state = 137;
 			this.number();
-			this.state = 127;
-			this.match(DSLParser.T__21);
+			this.state = 138;
+			this.match(DSLParser.T__24);
 			}
 		}
 		catch (re) {
@@ -652,7 +694,7 @@ export class DSLParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 129;
+			this.state = 140;
 			this.match(DSLParser.NUMBER);
 			}
 		}
@@ -672,7 +714,7 @@ export class DSLParser extends Parser {
 	}
 
 	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x1D\x86\x04\x02" +
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\"\x91\x04\x02" +
 		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
 		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x03\x02\x07\x02" +
 		"\x1A\n\x02\f\x02\x0E\x02\x1D\v\x02\x03\x02\x03\x02\x03\x03\x03\x03\x03" +
@@ -684,47 +726,53 @@ export class DSLParser extends Parser {
 		"\x05\x03\x05\x05\x05R\n\x05\x03\x05\x05\x05U\n\x05\x03\x06\x03\x06\x03" +
 		"\x06\x03\x06\x03\x06\x05\x06\\\n\x06\x03\x06\x03\x06\x03\x06\x05\x06a" +
 		"\n\x06\x03\x06\x03\x06\x03\x06\x05\x06f\n\x06\x03\x06\x03\x06\x03\x06" +
-		"\x03\x06\x03\x06\x05\x06m\n\x06\x05\x06o\n\x06\x03\x07\x03\x07\x03\x07" +
-		"\x03\b\x03\b\x03\b\x03\b\x03\b\x03\b\x03\t\x03\t\x03\t\x03\n\x03\n\x03" +
-		"\n\x03\v\x03\v\x03\v\x03\v\x03\f\x03\f\x03\f\x02\x02\x02\r\x02\x02\x04" +
-		"\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02" +
-		"\x02\x02\x02\x8D\x02\x1B\x03\x02\x02\x02\x04#\x03\x02\x02\x02\x06I\x03" +
-		"\x02\x02\x02\bK\x03\x02\x02\x02\nn\x03\x02\x02\x02\fp\x03\x02\x02\x02" +
-		"\x0Es\x03\x02\x02\x02\x10y\x03\x02\x02\x02\x12|\x03\x02\x02\x02\x14\x7F" +
-		"\x03\x02\x02\x02\x16\x83\x03\x02\x02\x02\x18\x1A\x05\x04\x03\x02\x19\x18" +
-		"\x03\x02\x02\x02\x1A\x1D\x03\x02\x02\x02\x1B\x19\x03\x02\x02\x02\x1B\x1C" +
-		"\x03\x02\x02\x02\x1C\x1E\x03\x02\x02\x02\x1D\x1B\x03\x02\x02\x02\x1E\x1F" +
-		"\x07\x02\x02\x03\x1F\x03\x03\x02\x02\x02 $\x05\x06\x04\x02!$\x05\b\x05" +
-		"\x02\"$\x05\n\x06\x02# \x03\x02\x02\x02#!\x03\x02\x02\x02#\"\x03\x02\x02" +
-		"\x02$\x05\x03\x02\x02\x02%&\x07\x03\x02\x02&\'\x05\f\x07\x02\'(\x07\x04" +
-		"\x02\x02()\x05\x0E\b\x02)*\x07\x05\x02\x02*,\x05\x16\f\x02+-\x05\x10\t" +
-		"\x02,+\x03\x02\x02\x02,-\x03\x02\x02\x02-J\x03\x02\x02\x02./\x07\x06\x02" +
-		"\x02/0\x05\f\x07\x0201\x07\x04\x02\x0212\x05\x0E\b\x0223\x07\x07\x02\x02" +
-		"34\x05\x16\f\x0245\x07\b\x02\x0257\x05\x16\f\x0268\x05\x10\t\x0276\x03" +
-		"\x02\x02\x0278\x03\x02\x02\x028J\x03\x02\x02\x029:\x07\t\x02\x02:;\x05" +
-		"\f\x07\x02;<\x07\x04\x02\x02<=\x05\x0E\b\x02=>\x07\n\x02\x02>@\x05\x16" +
-		"\f\x02?A\x05\x10\t\x02@?\x03\x02\x02\x02@A\x03\x02\x02\x02AJ\x03\x02\x02" +
-		"\x02BC\x07\v\x02\x02CD\x05\f\x07\x02DE\x07\x04\x02\x02EG\x05\x0E\b\x02" +
-		"FH\x05\x10\t\x02GF\x03\x02\x02\x02GH\x03\x02\x02\x02HJ\x03\x02\x02\x02" +
-		"I%\x03\x02\x02\x02I.\x03\x02\x02\x02I9\x03\x02\x02\x02IB\x03\x02\x02\x02" +
-		"J\x07\x03\x02\x02\x02KL\x07\f\x02\x02LM\x05\f\x07\x02MN\x07\x19\x02\x02" +
-		"NO\x07\x04\x02\x02OQ\x05\x0E\b\x02PR\x05\x12\n\x02QP\x03\x02\x02\x02Q" +
-		"R\x03\x02\x02\x02RT\x03\x02\x02\x02SU\x05\x10\t\x02TS\x03\x02\x02\x02" +
-		"TU\x03\x02\x02\x02U\t\x03\x02\x02\x02VW\x07\r\x02\x02WX\x07\x1B\x02\x02" +
-		"XY\x07\x0E\x02\x02Y[\x05\x0E\b\x02Z\\\x05\x14\v\x02[Z\x03\x02\x02\x02" +
-		"[\\\x03\x02\x02\x02\\o\x03\x02\x02\x02]^\x07\x0F\x02\x02^`\x07\x1B\x02" +
-		"\x02_a\x05\x14\v\x02`_\x03\x02\x02\x02`a\x03\x02\x02\x02ao\x03\x02\x02" +
-		"\x02bc\x07\x10\x02\x02ce\x07\x1B\x02\x02df\x05\x14\v\x02ed\x03\x02\x02" +
-		"\x02ef\x03\x02\x02\x02fo\x03\x02\x02\x02gh\x07\x11\x02\x02hi\x07\x1B\x02" +
-		"\x02ij\x07\x0E\x02\x02jl\x05\x16\f\x02km\x05\x14\v\x02lk\x03\x02\x02\x02" +
-		"lm\x03\x02\x02\x02mo\x03\x02\x02\x02nV\x03\x02\x02\x02n]\x03\x02\x02\x02" +
-		"nb\x03\x02\x02\x02ng\x03\x02\x02\x02o\v\x03\x02\x02\x02pq\x07\x12\x02" +
-		"\x02qr\x07\x1B\x02\x02r\r\x03\x02\x02\x02st\x07\x13\x02\x02tu\x05\x16" +
-		"\f\x02uv\x07\x14\x02\x02vw\x05\x16\f\x02wx\x07\x15\x02\x02x\x0F\x03\x02" +
-		"\x02\x02yz\x07\x16\x02\x02z{\x07\x1A\x02\x02{\x11\x03\x02\x02\x02|}\x07" +
-		"\n\x02\x02}~\x05\x16\f\x02~\x13\x03\x02\x02\x02\x7F\x80\x07\x17\x02\x02" +
-		"\x80\x81\x05\x16\f\x02\x81\x82\x07\x18\x02\x02\x82\x15\x03\x02\x02\x02" +
-		"\x83\x84\x07\x1C\x02\x02\x84\x17\x03\x02\x02\x02\x10\x1B#,7@GIQT[`eln";
+		"\x03\x06\x03\x06\x05\x06m\n\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06" +
+		"\x03\x06\x05\x06u\n\x06\x03\x06\x05\x06x\n\x06\x05\x06z\n\x06\x03\x07" +
+		"\x03\x07\x03\x07\x03\b\x03\b\x03\b\x03\b\x03\b\x03\b\x03\t\x03\t\x03\t" +
+		"\x03\n\x03\n\x03\n\x03\v\x03\v\x03\v\x03\v\x03\f\x03\f\x03\f\x02\x02\x02" +
+		"\r\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14" +
+		"\x02\x16\x02\x02\x02\x02\x9B\x02\x1B\x03\x02\x02\x02\x04#\x03\x02\x02" +
+		"\x02\x06I\x03\x02\x02\x02\bK\x03\x02\x02\x02\ny\x03\x02\x02\x02\f{\x03" +
+		"\x02\x02\x02\x0E~\x03\x02\x02\x02\x10\x84\x03\x02\x02\x02\x12\x87\x03" +
+		"\x02\x02\x02\x14\x8A\x03\x02\x02\x02\x16\x8E\x03\x02\x02\x02\x18\x1A\x05" +
+		"\x04\x03\x02\x19\x18\x03\x02\x02\x02\x1A\x1D\x03\x02\x02\x02\x1B\x19\x03" +
+		"\x02\x02\x02\x1B\x1C\x03\x02\x02\x02\x1C\x1E\x03\x02\x02\x02\x1D\x1B\x03" +
+		"\x02\x02\x02\x1E\x1F\x07\x02\x02\x03\x1F\x03\x03\x02\x02\x02 $\x05\x06" +
+		"\x04\x02!$\x05\b\x05\x02\"$\x05\n\x06\x02# \x03\x02\x02\x02#!\x03\x02" +
+		"\x02\x02#\"\x03\x02\x02\x02$\x05\x03\x02\x02\x02%&\x07\x03\x02\x02&\'" +
+		"\x05\f\x07\x02\'(\x07\x04\x02\x02()\x05\x0E\b\x02)*\x07\x05\x02\x02*," +
+		"\x05\x16\f\x02+-\x05\x10\t\x02,+\x03\x02\x02\x02,-\x03\x02\x02\x02-J\x03" +
+		"\x02\x02\x02./\x07\x06\x02\x02/0\x05\f\x07\x0201\x07\x04\x02\x0212\x05" +
+		"\x0E\b\x0223\x07\x07\x02\x0234\x05\x16\f\x0245\x07\b\x02\x0257\x05\x16" +
+		"\f\x0268\x05\x10\t\x0276\x03\x02\x02\x0278\x03\x02\x02\x028J\x03\x02\x02" +
+		"\x029:\x07\t\x02\x02:;\x05\f\x07\x02;<\x07\x04\x02\x02<=\x05\x0E\b\x02" +
+		"=>\x07\n\x02\x02>@\x05\x16\f\x02?A\x05\x10\t\x02@?\x03\x02\x02\x02@A\x03" +
+		"\x02\x02\x02AJ\x03\x02\x02\x02BC\x07\v\x02\x02CD\x05\f\x07\x02DE\x07\x04" +
+		"\x02\x02EG\x05\x0E\b\x02FH\x05\x10\t\x02GF\x03\x02\x02\x02GH\x03\x02\x02" +
+		"\x02HJ\x03\x02\x02\x02I%\x03\x02\x02\x02I.\x03\x02\x02\x02I9\x03\x02\x02" +
+		"\x02IB\x03\x02\x02\x02J\x07\x03\x02\x02\x02KL\x07\f\x02\x02LM\x05\f\x07" +
+		"\x02MN\x07\x1C\x02\x02NO\x07\x04\x02\x02OQ\x05\x0E\b\x02PR\x05\x12\n\x02" +
+		"QP\x03\x02\x02\x02QR\x03\x02\x02\x02RT\x03\x02\x02\x02SU\x05\x10\t\x02" +
+		"TS\x03\x02\x02\x02TU\x03\x02\x02\x02U\t\x03\x02\x02\x02VW\x07\r\x02\x02" +
+		"WX\x07\x1E\x02\x02XY\x07\x0E\x02\x02Y[\x05\x0E\b\x02Z\\\x05\x14\v\x02" +
+		"[Z\x03\x02\x02\x02[\\\x03\x02\x02\x02\\z\x03\x02\x02\x02]^\x07\x0F\x02" +
+		"\x02^`\x07\x1E\x02\x02_a\x05\x14\v\x02`_\x03\x02\x02\x02`a\x03\x02\x02" +
+		"\x02az\x03\x02\x02\x02bc\x07\x10\x02\x02ce\x07\x1E\x02\x02df\x05\x14\v" +
+		"\x02ed\x03\x02\x02\x02ef\x03\x02\x02\x02fz\x03\x02\x02\x02gh\x07\x11\x02" +
+		"\x02hi\x07\x1E\x02\x02ij\x07\x0E\x02\x02jl\x05\x16\f\x02km\x05\x14\v\x02" +
+		"lk\x03\x02\x02\x02lm\x03\x02\x02\x02mz\x03\x02\x02\x02no\x07\x12\x02\x02" +
+		"op\x07\x1E\x02\x02pq\x07\x13\x02\x02qt\x05\x16\f\x02rs\x07\x14\x02\x02" +
+		"su\x05\x0E\b\x02tr\x03\x02\x02\x02tu\x03\x02\x02\x02uw\x03\x02\x02\x02" +
+		"vx\x05\x14\v\x02wv\x03\x02\x02\x02wx\x03\x02\x02\x02xz\x03\x02\x02\x02" +
+		"yV\x03\x02\x02\x02y]\x03\x02\x02\x02yb\x03\x02\x02\x02yg\x03\x02\x02\x02" +
+		"yn\x03\x02\x02\x02z\v\x03\x02\x02\x02{|\x07\x15\x02\x02|}\x07\x1E\x02" +
+		"\x02}\r\x03\x02\x02\x02~\x7F\x07\x16\x02\x02\x7F\x80\x05\x16\f\x02\x80" +
+		"\x81\x07\x17\x02\x02\x81\x82\x05\x16\f\x02\x82\x83\x07\x18\x02\x02\x83" +
+		"\x0F\x03\x02\x02\x02\x84\x85\x07\x19\x02\x02\x85\x86\x07\x1D\x02\x02\x86" +
+		"\x11\x03\x02\x02\x02\x87\x88\x07\n\x02\x02\x88\x89\x05\x16\f\x02\x89\x13" +
+		"\x03\x02\x02\x02\x8A\x8B\x07\x1A\x02\x02\x8B\x8C\x05\x16\f\x02\x8C\x8D" +
+		"\x07\x1B\x02\x02\x8D\x15\x03\x02\x02\x02\x8E\x8F\x07\x1F\x02\x02\x8F\x17" +
+		"\x03\x02\x02\x02\x12\x1B#,7@GIQT[`eltwy";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!DSLParser.__ATN) {

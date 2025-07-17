@@ -1,4 +1,3 @@
-import { ParseTree } from "antlr4ts/tree/ParseTree";
 import { AbstractDSLVisitor } from "./AbstractDSLVisitor";
 import {
   Animation_stmtContext,
@@ -39,9 +38,9 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
         }, color: ${color} });`;
         break;
       case "rectangle":
-        code += `Rectangle({ ${pos}, width: ${
-          ctx.number(0).text
-        }, height: ${ctx.number(1).text}, color: ${color} });`;
+        code += `Rectangle({ ${pos}, width: ${ctx.number(0).text}, height: ${
+          ctx.number(1).text
+        }, color: ${color} });`;
         break;
       case "triangle":
         code += `Triangle({ ${pos}, radius: ${
@@ -52,7 +51,7 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
         code += `Dot({ ${pos}, color: ${color} });`;
         break;
     }
-    
+
     this.output.push(code);
     this.output.push(`toDraw.push(${id});`);
     return code;
@@ -104,8 +103,23 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
       code = `await ${id}.scale(${scale}, ${
         duration ? Math.round(parseFloat(duration) * 1000) : 1000
       });`;
-    }
+    } else if (keyword === "rotate") {
+      const degree = ctx.number()?.text ?? "0";
+      const durationMs = duration
+        ? Math.round(parseFloat(duration) * 1000)
+        : 1000;
 
+      let center = "";
+      if (ctx.position()) {
+        const positionText = this.visit(ctx.position()!);
+        const match = positionText.match(/centerX: ([^,]+), centerY: (.+)/);
+        if (match) {
+          const [, x, y] = match;
+          center = `, { x: ${x}, y: ${y} }`;
+        }
+      }
+      code = `await ${id}.rotate(${degree}, ${durationMs}${center});`;
+    }
     this.output.push(code);
     return code;
   }

@@ -26,6 +26,7 @@ animation_stmt
     | 'fadein' ID duration?
     | 'fadeout' ID duration?
     | 'scale' ID 'to' number duration?
+    | 'rotate' ID 'by' number ('around' position)? duration?
     ;
 
 // Components
@@ -41,4 +42,6 @@ STRING        : '"' (~["\\] | '\\' .)* '"' ;
 COLOR         : 'red' | 'green' | 'blue' | 'yellow' | 'brown' | 'black' | 'white' ;
 ID            : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMBER        : '-'? [0-9]+ ('.' [0-9]+)? ;
+LINE_COMMENT  : '//' ~[\r\n]* -> skip ;
+BLOCK_COMMENT : '/*' .*? '*/' -> skip ;
 WS            : [ \t\r\n]+ -> skip ;

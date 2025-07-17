@@ -21,7 +21,7 @@ export class Triangle extends Shape {
     centerX,
     centerY,
     color = "rgba(0, 255, 255, 0.5)",
-    fill = true,
+    fill = false,
     text = "",
     radius = 10,
   }: TriangleOptions) {
@@ -46,7 +46,7 @@ export class Triangle extends Shape {
 
     ctx.fillStyle = this.color;
     ctx.globalAlpha = this.getOpacity();
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = this.color;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.font = "20px Arial";

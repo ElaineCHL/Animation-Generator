@@ -4,7 +4,7 @@ import AxiosInstance from "../lib/axios";
 import CanvasWrapper from "../components/CanvasWrapper";
 
 const EditorPage = () => {
-  const [dsl, setDsl] = useState("circle at (100, 100) radius 50 color red");
+  const [dsl, setDsl] = useState("circle id=_circle1 at (100, 100) radius 50 color red");
   const [tsCode, setTsCode] = useState("// Translated TypeScript code will appear here...");
   const [error, setError] = useState("");
   const [showGrid, setShowGrid] = useState(true);

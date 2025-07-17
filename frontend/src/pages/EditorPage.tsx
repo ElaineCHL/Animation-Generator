@@ -41,7 +41,7 @@ const EditorPage = () => {
     <div className="py-6 max-w-7xl mx-auto space-y-4">
       <div className="grid grid-cols-2 gap-1">
         <div>
-          <label>DSL Input</label>
+          <label className="font-bold">DSL Input</label>
           <textarea
             value={dsl}
             onChange={(e) => setDsl(e.target.value)}
@@ -50,23 +50,25 @@ const EditorPage = () => {
         </div>
 
         <div>
-          <label>Generated TypeScript</label>
+          <label className="font-bold">Generated TypeScript</label>
           <pre className="w-full h-64 p-2 overflow-auto bg-black text-green-300">
             {tsCode}
           </pre>
         </div>
 
         <div className="col-span-2">
-          <label className="block mb-2">Animation Preview<span className="px-5">
-            <label className="inline-flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={showGrid}
-                onChange={(e) => setShowGrid(e.target.checked)}
-              />
-              <span>Show Gridlines</span>
-            </label>
-          </span></label>
+          <label className="block mb-2">
+            <span className="font-bold">Animation Preview</span>
+            <span className="px-5">
+              <label className="inline-flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={showGrid}
+                  onChange={(e) => setShowGrid(e.target.checked)}
+                />
+                <span>Show Gridlines</span>
+              </label>
+            </span></label>
 
 
           {Util.isEmptyString(error) ? (

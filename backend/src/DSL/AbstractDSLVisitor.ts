@@ -11,7 +11,7 @@ import {
   SizeContext,
   DurationContext,
   NumberContext
-} from "./DSLParser";
+} from "./generated/DSLParser";
 
 export abstract class AbstractDSLVisitor<Result>
   extends AbstractParseTreeVisitor<Result>

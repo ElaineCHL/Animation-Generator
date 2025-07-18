@@ -6,17 +6,16 @@ import {
   Animation_stmtContext,
   StatementContext,
   PositionContext,
-  IdContext,
   ColorContext,
   SizeContext,
   DurationContext,
   NumberContext
-} from "./DSLParser";
+} from "./generated/DSLParser";
 import { AbstractParseTreeVisitor } from "antlr4ts/tree/AbstractParseTreeVisitor";
 
 export abstract class DSLVisitorBase<Result> extends AbstractParseTreeVisitor<Result> implements DSLVisitor<Result> {
   protected defaultResult(): Result {
-    return undefined as unknown as Result; // or throw if desired
+    return undefined as unknown as Result;
   }
 
   visitScript(ctx: ScriptContext): Result {
@@ -35,9 +34,6 @@ export abstract class DSLVisitorBase<Result> extends AbstractParseTreeVisitor<Re
     return this.visitChildren(ctx);
   }
   visitPosition(ctx: PositionContext): Result {
-    return this.visitChildren(ctx);
-  }
-  visitId(ctx: IdContext): Result {
     return this.visitChildren(ctx);
   }
   visitColor(ctx: ColorContext): Result {

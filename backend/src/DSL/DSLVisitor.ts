@@ -3,16 +3,16 @@
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
 
-import { ScriptContext } from "./DSLParser";
-import { StatementContext } from "./DSLParser";
-import { Shape_stmtContext } from "./DSLParser";
-import { Text_stmtContext } from "./DSLParser";
-import { Animation_stmtContext } from "./DSLParser";
-import { PositionContext } from "./DSLParser";
-import { ColorContext } from "./DSLParser";
-import { SizeContext } from "./DSLParser";
-import { DurationContext } from "./DSLParser";
-import { NumberContext } from "./DSLParser";
+import { ScriptContext } from "./generated/DSLParser";
+import { StatementContext } from "./generated/DSLParser";
+import { Shape_stmtContext } from "./generated/DSLParser";
+import { Text_stmtContext } from "./generated/DSLParser";
+import { Animation_stmtContext } from "./generated/DSLParser";
+import { PositionContext } from "./generated/DSLParser";
+import { ColorContext } from "./generated/DSLParser";
+import { SizeContext } from "./generated/DSLParser";
+import { DurationContext } from "./generated/DSLParser";
+import { NumberContext } from "./generated/DSLParser";
 
 
 /**

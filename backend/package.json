@@ -4,7 +4,8 @@
   "main": "server.ts",
   "scripts": {
     "dev": "nodemon --exec ts-node src/server.ts",
-    "start": "ts-node src/server.ts"
+    "start": "ts-node src/server.ts",
+    "antlr": "antlr4ts -Dlanguage=TypeScript -visitor -no-listener -o ./src/DSL/generated ./src/DSL/DSL.g4"
   },
   "keywords": [],
   "author": "",

@@ -12,9 +12,11 @@ statement
 
 shape_stmt
     : ID '=' 'circle' 'at' position 'radius' number color?
-    | ID '=' 'rectangle' 'at' position 'width' number 'height' number color?
-    | ID '=' 'triangle' 'at' position 'size' number color?
     | ID '=' 'dot' 'at' position color?
+    | ID '=' 'rectangle' 'at' position 'width' number 'height' number color?
+    | ID '=' 'square' 'at' position 'size' number color?
+    | ID '=' 'triangle' 'at' position 'radius' number color?
+    | ID '=' 'line' position 'to' position color?
     ;
 
 text_stmt

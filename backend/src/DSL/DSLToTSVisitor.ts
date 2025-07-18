@@ -6,7 +6,7 @@ import {
   ScriptContext,
   Shape_stmtContext,
   Text_stmtContext,
-} from "./DSLParser";
+} from "./generated/DSLParser";
 
 export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
   idMap: Map<string, string> = new Map();
@@ -22,7 +22,7 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
 
   override visitShape_stmt(ctx: Shape_stmtContext): string {
     let shapeType = ctx.getChild(2).text;
-    const pos = this.visit(ctx.position());
+    const pos = this.visit(ctx.position(0));
     const id = ctx.ID().text;
     this.idMap.set(id, id);
     const color = ctx.color()?.COLOR().text
@@ -49,6 +49,17 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
         break;
       case "dot":
         code += `Dot({ ${pos}, color: ${color} });`;
+        break;
+      case "line":
+        const start = this.visit(ctx.position(0));
+        const end = this.visit(ctx.position(1));
+
+        // Parse individual components
+        const [startX, startY] = start.split(",").map((s) =>
+          s.split(":")[1].trim()
+        );
+        const [endX, endY] = end.split(",").map((s) => s.split(":")[1].trim());
+        code += `Line({ startX: ${startX}, startY: ${startY}, endX: ${endX}, endY: ${endY}, color: ${color} });`;
         break;
     }
 

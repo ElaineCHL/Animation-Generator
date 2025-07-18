@@ -23,5 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# ANTLR generated code
+backend/src/DSL/generated/
+backend/src/DSL/.antlr/
+
 .env
 .vite

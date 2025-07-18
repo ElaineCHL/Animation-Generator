@@ -3,8 +3,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import { CharStreams, CommonTokenStream } from "antlr4ts";
 
-import { DSLLexer } from "../src/DSL/DSLLexer";
-import { DSLParser } from "../src/DSL/DSLParser";
+import { DSLLexer } from "../src/DSL/generated/DSLLexer";
+import { DSLParser } from "../src/DSL/generated/DSLParser";
 import { DSLToTSVisitor } from "../src/DSL/DSLToTSVisitor";
 import { CustomErrorListener } from "../src/DSL/CustomErrorListener"
 ;

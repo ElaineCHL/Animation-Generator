@@ -18,9 +18,6 @@ app.use(bodyParser.text({ type: "text/plain" }));
 app.post("/translate", (req, res) => {
   try {
     const data = req.body.data;
-
-    console.log("data = " + data);
-
     const chars = CharStreams.fromString(data);
     const lexer = new DSLLexer(chars);
     lexer.removeErrorListeners();

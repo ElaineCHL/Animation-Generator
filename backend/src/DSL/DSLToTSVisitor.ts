@@ -1,10 +1,11 @@
 import { AbstractDSLVisitor } from "./AbstractDSLVisitor";
 import {
   Animation_stmtContext,
-  NumberContext,
+  Block_stmtContext,
   PositionContext,
   ScriptContext,
   Shape_stmtContext,
+  StatementContext,
   Text_stmtContext,
 } from "./generated/DSLParser";
 
@@ -59,7 +60,8 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
           s.split(":")[1].trim()
         );
         const [endX, endY] = end.split(",").map((s) => s.split(":")[1].trim());
-        code += `Line({ startX: ${startX}, startY: ${startY}, endX: ${endX}, endY: ${endY}, color: ${color} });`;
+        code +=
+          `Line({ startX: ${startX}, startY: ${startY}, endX: ${endX}, endY: ${endY}, color: ${color} });`;
         break;
     }
 
@@ -139,5 +141,21 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
     const x = ctx.number(0).text;
     const y = ctx.number(1).text;
     return `centerX: ${x}, centerY: ${y}`;
+  }
+
+  override visitBlock_stmt(ctx: Block_stmtContext): string {
+    const innerStatements = ctx.statement();
+    const promises: string[] = [];
+
+    innerStatements.forEach((stmtCtx: StatementContext) => {
+      const prevLength = this.output.length;
+      this.visit(stmtCtx);
+      const newCode = this.output.splice(prevLength); // isolate new lines
+      if (newCode.length > 0) {
+        promises.push(`(async () => {\n${newCode.join("\n")}\n})()`);
+      }
+    });
+    this.output.push(`await Promise.all([${promises.join(",\n")}]);`);
+    return "";
   }
 }

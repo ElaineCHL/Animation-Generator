@@ -8,6 +8,11 @@ statement
     : shape_stmt
     | text_stmt
     | animation_stmt
+    | block_stmt
+    ;
+
+block_stmt
+    : 'parallel' '{' statement* '}'
     ;
 
 shape_stmt

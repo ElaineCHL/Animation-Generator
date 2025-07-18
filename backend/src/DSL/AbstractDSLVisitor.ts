@@ -10,7 +10,8 @@ import {
   ColorContext,
   SizeContext,
   DurationContext,
-  NumberContext
+  NumberContext,
+  Block_stmtContext
 } from "./generated/DSLParser";
 
 export abstract class AbstractDSLVisitor<Result>
@@ -40,6 +41,10 @@ export abstract class AbstractDSLVisitor<Result>
   }
 
   visitAnimation_stmt(ctx: Animation_stmtContext): Result {
+    return this.visitChildren(ctx);
+  }
+  
+  visitBlock_stmt(ctx: Block_stmtContext): Result {
     return this.visitChildren(ctx);
   }
 

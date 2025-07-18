@@ -9,10 +9,7 @@ statement
     | text_stmt
     | animation_stmt
     | block_stmt
-    ;
-
-block_stmt
-    : 'parallel' '{' statement* '}'
+    | sleep_stmt
     ;
 
 shape_stmt
@@ -34,6 +31,14 @@ animation_stmt
     | 'fadeout' ID duration?
     | 'scale' ID 'to' number duration?
     | 'rotate' ID 'by' number ('around' position)? duration?
+    ;
+
+block_stmt
+    : 'parallel' '{' statement* '}'
+    ;
+
+sleep_stmt
+    : 'sleep' number 's'
     ;
 
 // Components

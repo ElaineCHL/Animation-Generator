@@ -1,17 +1,18 @@
 import { AbstractParseTreeVisitor } from "antlr4ts/tree/AbstractParseTreeVisitor";
 import { DSLVisitor } from "./DSLVisitor";
 import {
-  ScriptContext,
-  StatementContext,
-  Shape_stmtContext,
-  Text_stmtContext,
   Animation_stmtContext,
-  PositionContext,
+  Block_stmtContext,
   ColorContext,
-  SizeContext,
   DurationContext,
   NumberContext,
-  Block_stmtContext
+  PositionContext,
+  ScriptContext,
+  Shape_stmtContext,
+  SizeContext,
+  Sleep_stmtContext,
+  StatementContext,
+  Text_stmtContext,
 } from "./generated/DSLParser";
 
 export abstract class AbstractDSLVisitor<Result>
@@ -65,6 +66,10 @@ export abstract class AbstractDSLVisitor<Result>
   }
 
   visitNumber(ctx: NumberContext): Result {
+    return this.visitChildren(ctx);
+  }
+
+  visitSleep_stmt(ctx: Sleep_stmtContext): Result {
     return this.visitChildren(ctx);
   }
 }

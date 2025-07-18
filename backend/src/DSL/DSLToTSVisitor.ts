@@ -5,6 +5,7 @@ import {
   PositionContext,
   ScriptContext,
   Shape_stmtContext,
+  Sleep_stmtContext,
   StatementContext,
   Text_stmtContext,
 } from "./generated/DSLParser";
@@ -157,5 +158,13 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
     });
     this.output.push(`await Promise.all([${promises.join(",\n")}]);`);
     return "";
+  }
+
+  override visitSleep_stmt(ctx: Sleep_stmtContext): string {
+    const seconds = ctx.number().text;
+    const durationMs = Math.round(parseFloat(seconds) * 1000);
+    const code = `await Util.sleep(${durationMs});`;
+    this.output.push(code);
+    return code;
   }
 }

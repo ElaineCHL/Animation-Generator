@@ -12,7 +12,6 @@ import {
   SizeContext,
   Sleep_stmtContext,
   StatementContext,
-  Text_stmtContext,
 } from "./generated/DSLParser";
 
 export abstract class AbstractDSLVisitor<Result>
@@ -34,10 +33,6 @@ export abstract class AbstractDSLVisitor<Result>
   }
 
   visitShape_stmt(ctx: Shape_stmtContext): Result {
-    return this.visitChildren(ctx);
-  }
-
-  visitText_stmt(ctx: Text_stmtContext): Result {
     return this.visitChildren(ctx);
   }
 

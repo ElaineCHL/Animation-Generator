@@ -6,7 +6,6 @@ script        : statement* EOF ;
 // Statements
 statement
     : shape_stmt
-    | text_stmt
     | animation_stmt
     | block_stmt
     | sleep_stmt
@@ -19,12 +18,9 @@ shape_stmt
     | ID '=' 'square' 'at' position 'size' number color?
     | ID '=' 'triangle' 'at' position 'radius' number color?
     | ID '=' 'line' position 'to' position color?
+    | ID '=' 'text' STRING 'at' position size? color?
     ;
-
-text_stmt
-    : ID '=' 'text' STRING 'at' position size? color?
-    ;
-
+    
 animation_stmt
     : 'move' ID 'to' position duration?
     | 'fadein' ID duration?

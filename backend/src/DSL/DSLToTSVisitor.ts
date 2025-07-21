@@ -7,7 +7,6 @@ import {
   Shape_stmtContext,
   Sleep_stmtContext,
   StatementContext,
-  Text_stmtContext,
 } from "./generated/DSLParser";
 
 export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
@@ -27,6 +26,10 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
     const pos = this.visit(ctx.position(0));
     const id = ctx.ID().text;
     this.idMap.set(id, id);
+    const text = ctx.STRING()?.text ? `${ctx.STRING()?.text}` : "";
+    const size = ctx.size()?.number().text
+      ? `${ctx.size()!.number().text}`
+      : "2";
     const color = ctx.color()?.COLOR().text
       ? `"${ctx.color()?.COLOR().text}"`
       : `"black"`;
@@ -64,6 +67,9 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
         code +=
           `Line({ startX: ${startX}, startY: ${startY}, endX: ${endX}, endY: ${endY}, color: ${color} });`;
         break;
+      case "text":
+        code += `Text({ ${pos}, text: ${text}, size: ${size}, color: ${color} });`;
+        break;
     }
 
     this.output.push(code);
@@ -71,22 +77,6 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
     return code;
   }
 
-  override visitText_stmt(ctx: Text_stmtContext): string {
-    const id = ctx.ID().text;
-    const text = ctx.STRING().text;
-    const pos = this.visit(ctx.position());
-    const size = ctx.size()?.number().text
-      ? `, size: ${ctx.size()!.number().text}`
-      : "";
-    const color = ctx.color()?.COLOR().text
-      ? `, color: "${ctx.color()!.COLOR().text}"`
-      : "";
-    const code =
-      `const ${id} = new Text({ ${pos}, text: ${text}${size}${color} });`;
-    this.output.push(code);
-    this.output.push(`toDraw.push(${id});`);
-    return code;
-  }
 
   override visitAnimation_stmt(ctx: Animation_stmtContext): string {
     const id = ctx.ID().text;

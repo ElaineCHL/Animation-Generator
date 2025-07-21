@@ -32,7 +32,11 @@ export class Group {
     };
   }
 
-  public move(newX: number, newY: number, duration: number): Promise<void> {
+  public move(
+    newX: number,
+    newY: number,
+    duration: number = 1000,
+  ): Promise<void> {
     const movePromises = this.shapes.map((shape) => {
       const x = newX + (shape.center.x - this.origin.x);
       const y = newY + (shape.center.y - this.origin.y);
@@ -43,7 +47,7 @@ export class Group {
     return Promise.all(movePromises).then(() => {});
   }
 
-  public scale(factor: number, duration: number): Promise<void> {
+  public scale(factor: number, duration: number = 1000): Promise<void> {
     const startTime = performance.now();
 
     // cache original relative position
@@ -182,6 +186,145 @@ export class Group {
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
+          resolve();
+        }
+      };
+      requestAnimationFrame(animate);
+    });
+  }
+
+  public scaleAndRotate(
+    scaleFactor: number,
+    degree: number,
+    centerOfTransformation?: { x: number; y: number },
+    duration: number = 1000,
+  ): Promise<void> {
+    const startTime = performance.now();
+    const targetRadians = (degree * Math.PI) / 180;
+
+    const cx = centerOfTransformation?.x ?? this.origin.x;
+    const cy = centerOfTransformation?.y ?? this.origin.y;
+
+    const shapeStates = this.shapes.map((shape) => {
+      const dx = shape.center.x - cx;
+      const dy = shape.center.y - cy;
+      return {
+        shape,
+        dx,
+        dy,
+        startRotation: shape.rotation,
+      };
+    });
+
+    const originDx = this.origin.x - cx;
+    const originDy = this.origin.y - cy;
+
+    return new Promise<void>((resolve) => {
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const currentRadians = targetRadians * progress;
+        const currentScale = 1 + (scaleFactor - 1) * progress;
+
+        const cos = Math.cos(currentRadians);
+        const sin = Math.sin(currentRadians);
+
+        shapeStates.forEach(({ shape, dx, dy, startRotation }) => {
+          const scaledX = dx * currentScale;
+          const scaledY = dy * currentScale;
+
+          shape.center.x = scaledX * cos - scaledY * sin + cx;
+          shape.center.y = scaledX * sin + scaledY * cos + cy;
+
+          shape.rotation = startRotation + currentRadians;
+        });
+
+        this.origin.x = originDx * currentScale * cos -
+          originDy * currentScale * sin + cx;
+        this.origin.y = originDx * currentScale * sin +
+          originDy * currentScale * cos + cy;
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          resolve();
+        }
+      };
+      shapeStates.forEach(({ shape }) => shape.scale(scaleFactor, duration));
+      requestAnimationFrame(animate);
+    });
+  }
+
+  public moveAndRotate(
+    newX: number,
+    newY: number,
+    degree: number,
+    centerOfRotation?: { x: number; y: number },
+    duration: number = 1000,
+  ): Promise<void> {
+    const startTime = performance.now();
+    const targetRadians = (degree * Math.PI) / 180;
+
+    const startOriginX = this.origin.x;
+    const startOriginY = this.origin.y;
+
+    const cx = centerOfRotation?.x ?? this.origin.x;
+    const cy = centerOfRotation?.y ?? this.origin.y;
+
+    const shapeStates = this.shapes.map((shape) => ({
+      shape,
+      startX: shape.center.x,
+      startY: shape.center.y,
+      startRotation: shape.rotation,
+    }));
+
+    const startOrigin = { ...this.origin };
+
+    return new Promise<void>((resolve) => {
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const currentRadians = targetRadians * progress;
+
+        const currentOriginX = startOriginX + (newX - startOriginX) * progress;
+        const currentOriginY = startOriginY + (newY - startOriginY) * progress;
+
+        const cos = Math.cos(currentRadians);
+        const sin = Math.sin(currentRadians);
+
+        shapeStates.forEach(({ shape, startX, startY, startRotation }) => {
+          const translatedX = startX - cx;
+          const translatedY = startY - cy;
+
+          const rotatedX = translatedX * cos - translatedY * sin;
+          const rotatedY = translatedX * sin + translatedY * cos;
+
+          const deltaX = rotatedX + cx - shape.center.x;
+          const deltaY = rotatedY + cy - shape.center.y;
+
+          // Interpolate movement
+          shape.center.x = shape.center.x + (currentOriginX - this.origin.x) +
+            deltaX;
+          shape.center.y = shape.center.y + (currentOriginY - this.origin.y) +
+            deltaY;
+
+          shape.rotation = startRotation + currentRadians;
+        });
+
+        // Update group origin
+        const originTranslatedX = startOrigin.x - cx;
+        const originTranslatedY = startOrigin.y - cy;
+        this.origin.x = originTranslatedX * cos - originTranslatedY * sin + cx;
+        this.origin.y = originTranslatedX * sin + originTranslatedY * cos + cy;
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          // Final origin set exactly
+          this.origin.x = newX;
+          this.origin.y = newY;
           resolve();
         }
       };

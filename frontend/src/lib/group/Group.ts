@@ -90,18 +90,20 @@ export class Group {
     scaleFactor: number,
     newX: number,
     newY: number,
-    duration: number,
+    duration: number = 1000,
   ): Promise<void> {
     const startTime = performance.now();
 
-    // cache original relative positions and the starting origin
+    // Cache initial states
     const shapeStates = this.shapes.map((shape) => {
-      const dx = shape.center.x - this.origin.x; // relative to origin for scaling
+      const dx = shape.center.x - this.origin.x;
       const dy = shape.center.y - this.origin.y;
       return {
         shape,
         dx,
         dy,
+        startX: shape.center.x,
+        startY: shape.center.y,
       };
     });
 
@@ -109,20 +111,20 @@ export class Group {
     const startOriginX = this.origin.x;
     const startOriginY = this.origin.y;
 
-    this.shapes.forEach((shape) => shape.scale(scaleFactor, duration));
-
     return new Promise<void>((resolve) => {
       const animate = (currentTime: number) => {
-        const elapsedTime = currentTime - startTime;
-        const progress = Math.min(elapsedTime / duration, 1);
-        const currentScaleFactor = 1 + (scaleFactor - 1) * progress;
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentScale = 1 + (scaleFactor - 1) * progress;
+
+        // Calculate current position of origin during movement
         const currentOriginX = startOriginX + (newX - startOriginX) * progress;
         const currentOriginY = startOriginY + (newY - startOriginY) * progress;
 
+        // Update each shape's position
         shapeStates.forEach(({ shape, dx, dy }) => {
-          // apply scaling relative to the current origin
-          shape.center.x = currentOriginX + dx * currentScaleFactor;
-          shape.center.y = currentOriginY + dy * currentScaleFactor;
+          shape.center.x = currentOriginX + dx * currentScale;
+          shape.center.y = currentOriginY + dy * currentScale;
         });
 
         // update origin
@@ -135,6 +137,8 @@ export class Group {
           resolve();
         }
       };
+      // Apply scale to individual shapes
+      this.shapes.forEach((shape) => shape.scale(scaleFactor, duration));
       requestAnimationFrame(animate);
     });
   }

@@ -28,8 +28,8 @@ group_stmt
 
 animation_stmt
     : 'move' ID 'to' position duration?
-    | 'fadein' ID duration?
-    | 'fadeout' ID duration?
+    | 'fadeIn' ID duration?
+    | 'fadeOut' ID duration?
     | 'scale' ID 'to' number duration?
     | 'rotate' ID 'by' number ('around' position)? duration?
     ;
@@ -46,7 +46,7 @@ sleep_stmt
 position      : '(' number ',' number ')' ;
 color         : 'color' COLOR ;
 size          : 'size' number ;
-duration      : 'duration' number 's' ;
+duration      : 'over' number 's' ;
 number        : NUMBER ;
 STRING        : '"' (~["\\] | '\\' .)* '"' ;
 

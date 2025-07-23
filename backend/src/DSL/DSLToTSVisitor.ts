@@ -14,6 +14,7 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
   idMap: Map<string, string> = new Map();
   counter = 1;
   output: string[] = [];
+  groupIds: Set<string> = new Set();
 
   override visitScript(ctx: ScriptContext): string {
     ctx.statement().forEach((stmt) => {
@@ -123,31 +124,33 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
         let pos = "";
         if (ctx.position()) {
           const { x, y } = this.getPosition(ctx.position()!);
-          pos = x.toString() + ", " + y.toString();
+          pos = `${x}, ${y}`;
         }
-        code = `await ${id}.move(${pos}, ${milliseconds});`;
+        code = `await ${id}.move(${pos}, ${milliseconds})`;
         break;
-      case "fadein":
-        code = `await ${id}.fadeIn(${milliseconds});`;
+      case "fadeIn":
+        code = `await ${id}.fadeIn(${milliseconds})`;
         break;
-      case "fadeout":
-        code = `await ${id}.fadeOut(${milliseconds});`;
+      case "fadeOut":
+        code = `await ${id}.fadeOut(${milliseconds})`;
         break;
       case "scale":
         const scale = ctx.number()?.text ?? "1";
-        code = `await ${id}.scale(${scale}, ${milliseconds});`;
+        code = `await ${id}.scale(${scale}, ${milliseconds})`;
         break;
       case "rotate":
         const degree = ctx.number()?.text ?? "0";
         let center = "";
         if (ctx.position()) {
           const { x, y } = this.getPosition(ctx.position()!);
-          center = `{ x: ${x}, y: ${y} }`;
+          center = `, { x: ${x}, y: ${y} }`;
         }
-        code = `await ${id}.rotate(${degree}, ${milliseconds}, ${center});`;
+        code = `await ${id}.rotate(${degree}, ${milliseconds}${center})`;
         break;
     }
-    this.output.push(code);
+
+    // Only add semicolon here if not inside a block
+    this.output.push(`${code};`);
     return code;
   }
 
@@ -159,7 +162,6 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
 
   override visitBlock_stmt(ctx: Block_stmtContext): string {
     const innerStatements = ctx.statement();
-    const prevOutputLength = this.output.length;
     const animationsMap = new Map<
       string,
       {
@@ -196,53 +198,79 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
             current.move = this.getPosition(animation.position()!);
             break;
           default:
-            // Fallback to default output if not scale/rotate/move
+            // Fallback: capture output, strip trailing semicolons
             const prevLen = this.output.length;
             this.visit(stmtCtx);
-            tempOutput.push(...this.output.splice(prevLen));
+            const newLines = this.output.splice(prevLen).map((line) =>
+              line.replace(/;$/, "")
+            );
+            tempOutput.push(...newLines);
         }
       } else {
         // Non-animation statement
         const prevLen = this.output.length;
         this.visit(stmtCtx);
-        tempOutput.push(...this.output.splice(prevLen));
+        const newLines = this.output.splice(prevLen).map((line) =>
+          line.replace(/;$/, "")
+        );
+        tempOutput.push(...newLines);
       }
     });
 
-    // Special handling
+    const duration = 1000; // TODO: make dynamic
+
     for (const [id, acts] of animationsMap.entries()) {
-      const duration = 1000;
-      if (acts.scale && acts.rotate) {
-        const center = acts.rotate.center
-          ? `{ x: ${acts.rotate.center.x}, y: ${acts.rotate.center.y} }`
-          : "";
-        tempOutput.push(
-          `${id}.scaleAndRotate(${acts.scale}, ${acts.rotate.angle}, ${duration}, ${center})`,
-        );
-      } else if (acts.scale && acts.move) {
-        const pos = acts.move ? `{ x: ${acts.move.x}, y: ${acts.move.y} }` : "";
-        tempOutput.push(
-          `${id}.scaleAndMove(${acts.scale}, ${acts.move.x}, ${acts.move.y}, ${duration})`,
-        );
+      const isGroup = this.groupIds.has(id);
+
+      if (isGroup) {
+        if (acts.scale && acts.rotate) {
+          const center = acts.rotate.center
+            ? `, { x: ${acts.rotate.center.x}, y: ${acts.rotate.center.y} }`
+            : "";
+          tempOutput.push(
+            `${id}.scaleAndRotate(${acts.scale}, ${acts.rotate.angle}, ${duration}${center})`,
+          );
+        } else if (acts.scale && acts.move) {
+          tempOutput.push(
+            `${id}.scaleAndMove(${acts.scale}, ${acts.move.x}, ${acts.move.y}, ${duration})`,
+          );
+        } else {
+          if (acts.scale) {
+            tempOutput.push(`${id}.scale(${acts.scale}, ${duration})`);
+          }
+          if (acts.move) {
+            tempOutput.push(`${id}.move(${acts.move.x}, ${acts.move.y}, ${duration})`);
+          }
+          if (acts.rotate) {
+            const center = acts.rotate.center
+              ? `, { x: ${acts.rotate.center.x}, y: ${acts.rotate.center.y} }`
+              : "";
+            tempOutput.push(
+              `${id}.rotate(${acts.rotate.angle}, ${duration}${center})`,
+            );
+          }
+        }
       } else {
+        // Fallback for non-group
         if (acts.scale) {
-          tempOutput.push(`await ${id}.scale(${acts.scale}, ${duration})`);
+          tempOutput.push(`${id}.scale(${acts.scale}, ${duration})`);
         }
         if (acts.move) {
-          const moveStr = JSON.stringify(acts.move);
-          tempOutput.push(`await ${id}.move(${moveStr}, ${duration})`);
+          tempOutput.push(
+            `${id}.move(${acts.move.x}, ${acts.move.y}, ${duration})`,
+          );
         }
         if (acts.rotate) {
           const center = acts.rotate.center
-            ? `, ${JSON.stringify(acts.rotate.center)}`
+            ? `, { x: ${acts.rotate.center.x}, y: ${acts.rotate.center.y} }`
             : "";
           tempOutput.push(
-            `await ${id}.rotate(${acts.rotate.angle}, ${duration}${center})`,
+            `${id}.rotate(${acts.rotate.angle}, ${duration}${center})`,
           );
         }
       }
     }
-    this.output.push(`await Promise.all([\n${tempOutput.join(",\n")}\n]);`);
+    this.output.push(`await Promise.all([\n  ${tempOutput.join(",\n  ")}\n]);`);
     return "";
   }
 
@@ -256,6 +284,7 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
 
   override visitGroup_stmt(ctx: Group_stmtContext): string {
     const [groupName, ...members] = ctx.ID().map((id) => id.text);
+    this.groupIds.add(groupName);
     let code = `const ${groupName} = new Group();\n`;
     code += `${groupName}.addShape([${members.join(", ")}]);`;
     this.output.push(code);

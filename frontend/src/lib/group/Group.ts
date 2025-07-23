@@ -8,8 +8,10 @@ export class Group {
     this.origin = { x: 0, y: 0 };
   }
 
-  public addShape(shape: Shape) {
-    this.shapes.push(shape);
+  public addShape(shapes: Shape[]) {
+    shapes.forEach((shape) => {
+      this.shapes.push(shape);
+    });
     this.updateOrigin();
   }
 
@@ -200,14 +202,17 @@ export class Group {
   public scaleAndRotate(
     scaleFactor: number,
     degree: number,
-    centerOfTransformation?: { x: number; y: number },
     duration: number = 1000,
+    centerOfTransformation: { x: number; y: number } = {
+      x: this.origin.x,
+      y: this.origin.y,
+    },
   ): Promise<void> {
     const startTime = performance.now();
     const targetRadians = (degree * Math.PI) / 180;
 
-    const cx = centerOfTransformation?.x ?? this.origin.x;
-    const cy = centerOfTransformation?.y ?? this.origin.y;
+    const cx = centerOfTransformation.x;
+    const cy = centerOfTransformation.y;
 
     const shapeStates = this.shapes.map((shape) => {
       const dx = shape.center.x - cx;

@@ -6,6 +6,7 @@ script        : statement* EOF ;
 // Statements
 statement
     : shape_stmt
+    | group_stmt
     | animation_stmt
     | block_stmt
     | sleep_stmt
@@ -20,7 +21,11 @@ shape_stmt
     | ID '=' 'line' position 'to' position color?
     | ID '=' 'text' STRING 'at' position size? color?
     ;
-    
+
+group_stmt
+    : ID '=' 'group' '{' ID (',' ID)* '}'
+    ;
+
 animation_stmt
     : 'move' ID 'to' position duration?
     | 'fadein' ID duration?

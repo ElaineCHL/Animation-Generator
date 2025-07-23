@@ -5,6 +5,7 @@ import {
   Block_stmtContext,
   ColorContext,
   DurationContext,
+  Group_stmtContext,
   NumberContext,
   PositionContext,
   ScriptContext,
@@ -18,12 +19,10 @@ export abstract class AbstractDSLVisitor<Result>
   extends AbstractParseTreeVisitor<Result>
   implements DSLVisitor<Result> {
 
-  // This is the default return value if a method isn't overridden
   protected defaultResult(): Result {
     return undefined as unknown as Result;
   }
 
-  // Override any methods you want custom logic for
   visitScript(ctx: ScriptContext): Result {
     return this.visitChildren(ctx);
   }
@@ -65,6 +64,10 @@ export abstract class AbstractDSLVisitor<Result>
   }
 
   visitSleep_stmt(ctx: Sleep_stmtContext): Result {
+    return this.visitChildren(ctx);
+  }
+
+  visitGroup_stmt(ctx: Group_stmtContext): Result {
     return this.visitChildren(ctx);
   }
 }

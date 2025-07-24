@@ -8,7 +8,7 @@ interface FormState {
 const UploadForm: React.FC = () => {
   const [formState, setFormState] = useState<FormState>({
     text: '',
-    model: '',
+    model: 'gpt-4o',
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -28,10 +28,6 @@ const UploadForm: React.FC = () => {
       setError('Please fill in all fields.');
       return;
     }
-
-    alert(`Form submitted with:\n
-      Text: ${formState.text}\n
-      Model: ${formState.model}`);
   };
 
   return (

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { Util } from "../lib/Utils";
 import AxiosInstance from "../lib/axios";
 import CanvasWrapper from "../components/CanvasWrapper";
+import { useEffect, useState } from "react";
 
 const EditorPage = () => {
   const [dsl, setDsl] = useState("c1 = circle at (100, 100) radius 50 color red");

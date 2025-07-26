@@ -51,7 +51,7 @@ number        : NUMBER ;
 STRING        : '"' (~["\\] | '\\' .)* '"' ;
 
 // Tokens
-COLOR         : 'red' | 'green' | 'blue' | 'yellow' | 'brown' | 'black' | 'white' ;
+COLOR         : 'red' | 'green' | 'blue' | 'yellow' | 'brown' | 'black' | 'white' | 'orange' | 'purple' ;
 ID            : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMBER        : '-'? [0-9]+ ('.' [0-9]+)? ;
 LINE_COMMENT  : '//' ~[\r\n]* -> skip ;

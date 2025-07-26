@@ -9,22 +9,24 @@ id = rectangle at (x, y) width <number> height <number> [color <color>]
 id = square at (x, y) size <number> [color <color>]
 id = triangle at (x, y) radius <number> [color <color>]
 id = line (x1, y1) to (x2, y2) [color <color>]
-id = text "string content" at (x, y) [size <number>] [color <color>]
-All shapes can optionally have color. Text can optionally have size and color.
+id = text "string content" at (x, y) [color <color>]
+All shapes can optionally have color.
+Available colors: red, green, blue, yellow, brown, black, white, orange, purple
 
-- Commands: move, rotate, fadeIn, fadeOut, scale
+- Commands: move, rotate, fadeOut, scale
 - Coordinates are in (x, y). Time is in seconds.
 
 - Animations can be grouped: `group {s1, s2}`
 - Animations can run in parallel or sequence:
+  - Animations are sequence by default. 
+  - There are no such things as `sequence { ... }`
   - for parallel, use `parallel { ... }`
-  - for sequence, do it without in blocks
 - Animations follow this format:
 - `rotate <shape> by <degrees> around (x, y) over <duration>s`. The center of rotation is optional and defaults to the shape's center
 - `move <shape> to (x, y) over <duration>s`
 - `scale <shape> to <factor> over <duration>s`
-- `fadeIn <shape> over <duration>s`
 - `fadeOut <shape> over <duration>s`
 
 Use // for line comments and /* */ for block comments. Only return valid runnable codes.
-Canvas size is 1200 x 600
+Canvas size is 1200 x 600.
+The background color is white.

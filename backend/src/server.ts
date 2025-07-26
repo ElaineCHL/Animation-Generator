@@ -58,8 +58,6 @@ const client = new OpenAI({
 });
 
 app.post("/api/prompt", async (req: Request, res: Response) => {
-  console.log("req = ", req);
-  console.log("res = ", res);
   const { prompt, model } = req.body;
   const selectedModel = model || "gpt-4o";
   const systemPromptPath = path.resolve(__dirname, "./assets/systemPrompt.txt");

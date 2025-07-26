@@ -1,14 +1,47 @@
 import { useState } from "react";
+import axiosInstance, { isAxiosError } from "../lib/axios";
 import Form from "../components/Form";
+import { Util } from "../lib/Utils";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [response, setResponse] = useState("");
+  const [error, setError] = useState("");
+
+  const handleFormSubmit = async ({ prompt, model }: { prompt: string; model: string }) => {
+    setIsLoading(true);
+
+    if (!model) {
+      setError("Model not selected.");
+      return;
+    }
+    if (Util.isEmptyString(prompt)) {
+      setError("Prompt is empty.");
+      return;
+    }
+    try {
+      const res = await axiosInstance.post("/prompt", { prompt, model });
+      setResponse(res.data.result);
+      console.log(res.data.result);
+    } catch (err: unknown) {
+      if (isAxiosError(err)) {
+        console.error("Axios Error:", err.response?.data);
+      } else {
+        console.error("Unexpected Error:", err);
+      }
+      setResponse("");
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white text-gray-800 px-6 py-8">
-      <Form />
+      <Form onSubmit={handleFormSubmit} />
       {isLoading ? (
         <div className="flex items-center justify-center">
+          {/* Spinner */}
           <div role="status" className="flex flex-col items-center">
             <svg
               aria-hidden="true"
@@ -49,7 +82,13 @@ const HomePage = () => {
           </div>
         </div>
       ) : (
-        <label htmlFor=""></label>
+        <div className="mt-6 max-w-4xl mx-auto">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+            <div className="whitespace-pre-wrap text-gray-800 leading-relaxed">
+              {response}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

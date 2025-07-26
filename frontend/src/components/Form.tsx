@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 
 interface FormState {
-  text: string;
+  prompt: string;
   model: string;
 }
 
-const UploadForm: React.FC = () => {
+interface UploadFormProps {
+  onSubmit: (data: FormState) => void;
+}
+
+const UploadForm: React.FC<UploadFormProps> = ({ onSubmit }) => {
   const [formState, setFormState] = useState<FormState>({
-    text: '',
+    prompt: '',
     model: 'gpt-4o',
   });
 
   const [error, setError] = useState<string | null>(null);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState(prev => ({ ...prev, text: e.target.value }));
+    setFormState(prev => ({ ...prev, prompt: e.target.value }));
   };
 
   const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -24,20 +28,22 @@ const UploadForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!formState.text || !formState.model) {
+    if (!formState.prompt || !formState.model) {
       setError('Please fill in all fields.');
       return;
     }
+    setError(null);
+    onSubmit(formState);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto p-4 rounded">
+    <form onSubmit={handleSubmit} className="container mx-auto p-4 rounded">
       <div className="flex flex-row flex-wrap">
         <div className="mb-4 px-2 flex-1 min-w-[250px]">
           <label className="mb-1 block">Ask a question related to your document:</label>
           <input
             type="text"
-            value={formState.text}
+            value={formState.prompt}
             onChange={handleTextChange}
             className="w-full border p-2 rounded"
             required

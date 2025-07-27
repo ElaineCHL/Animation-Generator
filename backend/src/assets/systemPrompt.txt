@@ -30,3 +30,5 @@ Available colors: red, green, blue, yellow, brown, black, white, orange, purple
 Use // for line comments and /* */ for block comments. Only return valid runnable codes.
 Canvas size is 1200 x 600.
 The background color is white.
+Do not wrap your response in ```.
+Keywords should not be used as ID.

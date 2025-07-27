@@ -80,19 +80,14 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
 });`;
         break;
       case "line":
-        const start = this.visit(ctx.position(0));
-        const end = this.visit(ctx.position(1));
+        const start = this.getPosition(ctx.position(0)!);
+        const end = this.getPosition(ctx.position(1)!);
 
-        // Parse individual components
-        const [startX, startY] = start.split(",").map((s) =>
-          s.split(":")[1].trim()
-        );
-        const [endX, endY] = end.split(",").map((s) => s.split(":")[1].trim());
         code += `Line({ 
-  startX: ${startX},
-  startY: ${startY},
-  endX: ${endX},
-  endY: ${endY},
+  startX: ${start.x},
+  startY: ${start.y},
+  endX: ${end.x},
+  endY: ${end.y},
   color: ${color}
 });`;
         break;
@@ -239,7 +234,9 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
             tempOutput.push(`${id}.scale(${acts.scale}, ${duration})`);
           }
           if (acts.move) {
-            tempOutput.push(`${id}.move(${acts.move.x}, ${acts.move.y}, ${duration})`);
+            tempOutput.push(
+              `${id}.move(${acts.move.x}, ${acts.move.y}, ${duration})`,
+            );
           }
           if (acts.rotate) {
             const center = acts.rotate.center

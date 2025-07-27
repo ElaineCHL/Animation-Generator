@@ -86,8 +86,8 @@ const CanvasWrapper = ({ animationCode, showGrid, onError }: CanvasWrapperProps)
       <canvas
         id="myCanvas"
         ref={canvasRef}
-        width={1000}
-        height={500}
+        width={1250}
+        height={620}
         style={{ border: "1px solid black" }}
       />
     </div>

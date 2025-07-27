@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Editor from "@monaco-editor/react";
 import { Util } from "../lib/Utils";
 import AxiosInstance from "../lib/axios";
 import CanvasWrapper from "../components/CanvasWrapper";
@@ -46,10 +47,11 @@ const EditorPage = () => {
             <label className="font-bold">DSL Input</label>
             <CopyButton textToCopy={dsl} />
           </div>
-          <textarea
+          <Editor
+            height="300px"
+            defaultLanguage="plaintext"
             value={dsl}
-            onChange={(e) => setDsl(e.target.value)}
-            className="w-full h-64 p-2 border rounded bg-gray-50"
+            onChange={(value) => setDsl(value ?? "")}
           />
         </div>
 
@@ -58,9 +60,15 @@ const EditorPage = () => {
             <label className="font-bold">Generated TypeScript</label>
             <CopyButton textToCopy={tsCode} />
           </div>
-          <pre className="w-full h-64 p-2 overflow-auto bg-black text-green-300">
-            {tsCode}
-          </pre>
+          <Editor
+            height="300px"
+            defaultLanguage="typescript"
+            value={tsCode}
+            theme="vs-dark"
+            options={{
+              readOnly: true,
+            }}
+          />
         </div>
 
         <div className="col-span-2">

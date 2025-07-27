@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axiosInstance, { isAxiosError } from "../lib/axios";
-import Form from "../components/Form";
 import { Util } from "../lib/Utils";
+import Form from "../components/Form";
+import CopyButton from "../components/CopyButton";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +84,7 @@ const HomePage = () => {
         </div>
       ) : (
         <div className="mt-6 max-w-4xl mx-auto">
+          <CopyButton textToCopy={response} />
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
             <div className="whitespace-pre-wrap text-gray-800 leading-relaxed">
               {response}

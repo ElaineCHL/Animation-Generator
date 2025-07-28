@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Util } from '../lib/Utils';
 
 interface FormState {
   prompt: string;
@@ -7,9 +8,10 @@ interface FormState {
 
 interface UploadFormProps {
   onSubmit: (data: FormState) => void;
+  isLoading: boolean;
 }
 
-const UploadForm: React.FC<UploadFormProps> = ({ onSubmit }) => {
+const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isLoading }) => {
   const [formState, setFormState] = useState<FormState>({
     prompt: '',
     model: 'gpt-4o',
@@ -28,8 +30,11 @@ const UploadForm: React.FC<UploadFormProps> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!formState.prompt || !formState.model) {
-      setError('Please fill in all fields.');
+    if (Util.isEmptyString(formState.prompt) || !formState.prompt) {
+      setError('Please enter prompt.');
+      return;
+    } else if (Util.isEmptyString(formState.model) || !formState.model) {
+      setError('Please choose a model.');
       return;
     }
     setError(null);
@@ -67,7 +72,8 @@ const UploadForm: React.FC<UploadFormProps> = ({ onSubmit }) => {
         <div className="mb-4 px-2 flex items-end">
           <button
             type="submit"
-            className="bg-blue-600 text-white rounded hover:bg-blue-700 px-4 py-2"
+            disabled={isLoading}
+            className="bg-blue-600 text-white rounded hover:bg-blue-700 px-4 py-2 disabled:bg-gray-400 disabled:text-gray-600 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
           >
             Submit
           </button>

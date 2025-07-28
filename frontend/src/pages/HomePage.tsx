@@ -11,6 +11,7 @@ const HomePage = () => {
 
   const handleFormSubmit = async ({ prompt, model }: { prompt: string; model: string }) => {
     setIsLoading(true);
+    setError("");
 
     if (!model) {
       setError("Model not selected.");
@@ -39,7 +40,12 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-white text-gray-800 px-6 py-8">
-      <Form onSubmit={handleFormSubmit} />
+      <Form onSubmit={handleFormSubmit} isLoading={isLoading} />
+      {error && (
+        <div className="mt-4 max-w-2xl mx-auto text-red-600 bg-red-100 border border-red-300 rounded p-4">
+          {error}
+        </div>
+      )}
       {isLoading ? (
         <div className="flex items-center justify-center">
           {/* Spinner */}

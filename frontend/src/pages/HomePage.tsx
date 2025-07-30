@@ -3,6 +3,7 @@ import axiosInstance, { isAxiosError } from "../lib/axios";
 import { Util } from "../lib/Utils";
 import Form from "../components/Form";
 import CopyButton from "../components/CopyButton";
+import FileUploader from "../components/FileUploader";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +41,7 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-white text-gray-800 px-6 py-8">
+      <FileUploader />
       <Form onSubmit={handleFormSubmit} isLoading={isLoading} />
       {error && (
         <div className="mt-4 max-w-2xl mx-auto text-red-600 bg-red-100 border border-red-300 rounded p-4">

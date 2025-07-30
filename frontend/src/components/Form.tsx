@@ -42,9 +42,8 @@ const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isLoading }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="container mx-auto p-4 rounded">
-      <div className="flex flex-row flex-wrap">
-        <div className="mb-4 px-2 flex-1 min-w-[250px]">
+<form onSubmit={handleSubmit} className="container max-w-4xl mx-auto pt-10 rounded">      <div className="flex flex-row flex-wrap">
+        <div className="mb-4 flex-1 min-w-[250px]">
           <label className="mb-1 block">Ask a question related to your document:</label>
           <input
             type="text"
@@ -69,7 +68,7 @@ const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isLoading }) => {
           </select>
         </div>
 
-        <div className="mb-4 px-2 flex items-end">
+        <div className="mb-4 flex items-end">
           <button
             type="submit"
             disabled={isLoading}

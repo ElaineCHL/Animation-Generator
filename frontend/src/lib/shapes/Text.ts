@@ -23,10 +23,10 @@ export class Text extends Shape {
     centerX,
     centerY,
     text,
-    size = 2,
+    size = 1,
     color = "black",
     fill = true,
-    font = "arial",
+    font = "calibri",
   }: TextOptions) {
     super();
     this.center = { x: centerX, y: centerY };

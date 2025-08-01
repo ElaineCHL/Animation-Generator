@@ -31,7 +31,7 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
     const text = ctx.STRING()?.text ? `${ctx.STRING()?.text}` : "";
     const size = ctx.size()?.number().text
       ? `${ctx.size()!.number().text}`
-      : "2";
+      : "1.7";
     const color = ctx.color()?.COLOR().text
       ? `"${ctx.color()?.COLOR().text}"`
       : `"black"`;

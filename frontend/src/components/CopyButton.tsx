@@ -23,7 +23,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({
   return (
     <button
       onClick={() => copyToClipboard(textToCopy)}
-      className={`flex gap-1 items-center select-none py-1 px-3 text-gray-400 text-sm ${className}`}
+      className={`flex gap-1 items-center select-none py-1 px-3 text-gray-400 text-sm ml-auto ${className}`}
     >
       <svg
         width="15"

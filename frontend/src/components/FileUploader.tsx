@@ -5,9 +5,7 @@ import toast from 'react-hot-toast';
 import api from '../lib/axios.js';
 
 const ALLOWED_TYPES = [
-  'application/pdf',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/pdf'
 ];
 
 const FileUploader: FC = () => {
@@ -21,7 +19,7 @@ const FileUploader: FC = () => {
     if (!file) return;
 
     if (!ALLOWED_TYPES.includes(file.type)) {
-      alert('File type not supported. Please upload a PDF, DOC, or DOCX file.');
+      alert('File type not supported. Please upload a PDF file.');
       return;
     }
     setFile(file);
@@ -66,13 +64,13 @@ const FileUploader: FC = () => {
     <div className="max-w-2xl mx-auto p-4 bg-white shadow rounded">
       <div className="mb-4">
         <label htmlFor="fileInput" className="block font-medium mb-2">
-          Upload your Learning Material (PDF, DOC, DOCX)
+          Upload your Learning Material (PDF)
         </label>
         <input
           id="fileInput"
           type="file"
           className="block w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:border-blue-500"
-          accept=".pdf,.doc,.docx"
+          accept=".pdf"
           onChange={handleFileChange}
           disabled={uploading}
         />

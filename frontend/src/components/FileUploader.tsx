@@ -31,23 +31,24 @@ const FileUploader: FC = () => {
     setUploading(true);
 
     if (!file) return;
-    const { name, type } = file;
-    
-    // TODO: add upload file logic
+
     try {
-      console.log(file);
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await api.post('/upload-pdf', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (res.status !== 200) throw new Error("Upload failed");
 
       setUploadStatus('Uploaded');
-      toast.success("Uploaded successfully.")
+      toast.success("Uploaded successfully.");
     } catch (err: unknown) {
       let errorMsg = 'An unknown error occurred.';
-
-      if (err && typeof err === 'object' && 'response' in err) {
-        const errorObj = err as { response?: { data?: { message?: string }, status?: number } };
-        errorMsg = errorObj.response?.data?.message || `Server error: ${errorObj.response?.status}`;
-      } else if (err instanceof Error) {
-        errorMsg = err.message;
-      }
+      if (err instanceof Error) errorMsg = err.message;
+      console.log("err = ", err);
       setError(errorMsg);
       setUploadStatus('Failed');
       toast.error(errorMsg);

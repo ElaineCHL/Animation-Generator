@@ -10,33 +10,16 @@ async function setupSchema() {
       .withClass({
         class: "Document",
         description: "Chunks of textbook content for search",
-        vectorizer: "text2vec-openai",
-        moduleConfig: {
-          "text2vec-openai": {
-            "model": "ada",
-            "modelVersion": "002",
-            "type": "text",
-            vectorizeClassName: false,
-          },
-        },
         properties: [
           {
             name: "content",
             dataType: ["text"],
-            description: "content of textbook chunk",
-            moduleConfig: {
-              "text2vec-openai": {
-                model: "ada",
-                modelVersion: "002",
-                type: "text",
-                vectorizePropertyName: false,
-              },
-            },
+            description: "Content of textbook chunk",
           },
           {
             name: "title",
             dataType: ["string"],
-            description: "title of textbook chunk",
+            description: "Title of textbook chunk",
           },
         ],
       })

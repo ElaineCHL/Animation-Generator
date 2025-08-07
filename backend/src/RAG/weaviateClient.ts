@@ -25,3 +25,20 @@ async function checkWeaviateReady() {
 checkWeaviateReady();
 
 export default client;
+
+// import weaviate, { WeaviateClient } from 'weaviate-client';
+
+// const weaviateURL = process.env.WEAVIATE_CLUSTER_URL as string;
+// const weaviateApiKey = process.env.WEAVIATE_API_KEY as string;
+
+// // Best practice: store your credentials as environment variables
+// // WEAVIATE_URL       your Weaviate instance URL
+// // WEAVIATE_API_KEY   your Weaviate instance API Key
+
+// (async () => {
+//   const client: WeaviateClient = await weaviate.connectToWeaviateCloud(weaviateURL, {
+//     authCredentials: new weaviate.ApiKey(weaviateApiKey),
+//   });
+
+//   console.log("Client is ready?", await client.isReady());
+// })();

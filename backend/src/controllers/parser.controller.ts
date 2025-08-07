@@ -4,8 +4,9 @@ import { DSLLexer } from "../DSL/generated/DSLLexer";
 import { DSLParser } from "../DSL/generated/DSLParser";
 import { DSLToTSVisitor } from "../DSL/DSLToTSVisitor";
 import { CustomErrorListener } from "../DSL/CustomErrorListener";
+import { generateTTS } from "../util/gtts";
 
-export default async function parseController (req: Request, res: Response) {
+export default async function parseController(req: Request, res: Response) {
   try {
     const data = req.body.data;
     const chars = CharStreams.fromString(data);
@@ -19,10 +20,15 @@ export default async function parseController (req: Request, res: Response) {
     const tree = parser.script();
     const visitor = new DSLToTSVisitor();
     const generatedCode = visitor.visit(tree);
+    const ttsText = visitor.ttsComments;
+    const audioFiles = await generateTTS(ttsText);
+
+    tokens.fill();
 
     res.json({
       success: true,
       code: generatedCode,
+      tts: audioFiles,
     });
   } catch (err) {
     console.error(err);

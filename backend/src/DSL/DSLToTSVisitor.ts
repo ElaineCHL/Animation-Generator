@@ -8,6 +8,7 @@ import {
   Shape_stmtContext,
   Sleep_stmtContext,
   StatementContext,
+  Tts_stmtContext,
 } from "./generated/DSLParser";
 
 export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
@@ -15,6 +16,7 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
   counter = 1;
   output: string[] = [];
   groupIds: Set<string> = new Set();
+  public ttsComments: string[] = [];
 
   override visitScript(ctx: ScriptContext): string {
     ctx.statement().forEach((stmt) => {
@@ -286,5 +288,12 @@ export class DSLToTSVisitor extends AbstractDSLVisitor<string> {
     code += `${groupName}.addShape([${members.join(", ")}]);`;
     this.output.push(code);
     return code;
+  }
+
+  override visitTts_stmt(ctx: Tts_stmtContext): string {
+    const raw = ctx.TTS_COMMENT().text;
+    const cleaned = raw.replace(/^TTS:\s*/i, "").trim();
+    this.ttsComments.push(cleaned);
+    return "";
   }
 }

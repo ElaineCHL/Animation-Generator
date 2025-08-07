@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import { Util } from "../lib/Utils";
 import AxiosInstance from "../lib/axios";
-import CanvasWrapper from "../components/CanvasWrapper";
+import CanvasWrapper, { type CanvasWrapperHandle } from "../components/CanvasWrapper";
 import CopyButton from "../components/CopyButton";
 
 const EditorPage = () => {
@@ -10,6 +10,22 @@ const EditorPage = () => {
   const [tsCode, setTsCode] = useState("Translated TypeScript code will appear here...");
   const [error, setError] = useState("");
   const [showGrid, setShowGrid] = useState(true);
+  const [audioUrls, setAudioUrls] = useState<string[]>([]);
+
+  const canvasRef = useRef<CanvasWrapperHandle>(null);
+
+  async function playNarrationAndAnimation() {
+    canvasRef.current?.play(); // play animation
+    await playAudio(audioUrls); // play audio
+  }
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      translateDSL(dsl).then(setTsCode);
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [dsl]);
 
   async function translateDSL(dsl: string): Promise<string> {
     setError("");
@@ -17,6 +33,7 @@ const EditorPage = () => {
       const response = await AxiosInstance.post("/translate", {
         data: dsl,
       });
+      setAudioUrls(response.data.tts);
       return response.data.code;
     } catch (error: unknown) {
       let errorMessage = "";
@@ -31,13 +48,22 @@ const EditorPage = () => {
     }
   }
 
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      translateDSL(dsl).then(setTsCode);
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [dsl]);
+  async function playAudio(urls: string[]) {
+    for (const url of urls) {
+      await new Promise<void>((resolve) => {
+        const audio = new Audio(`http://localhost:3000/audio/${url}`);
+        audio.onended = () => resolve();
+        audio.onerror = () => {
+          console.error("Audio failed to play:", url);
+          resolve();
+        };
+        audio.play().catch((err) => {
+          console.error("Playback error:", err);
+          resolve();
+        });
+      });
+    }
+  }
 
   return (
     <div className="py-6 max-w-7xl mx-auto space-y-4">
@@ -83,11 +109,20 @@ const EditorPage = () => {
                 />
                 <span>Show Gridlines</span>
               </label>
+
+              <button className="bg-blue-600 text-white rounded hover:bg-blue-700 px-4 py-2 m-2" onClick={playNarrationAndAnimation}>
+                Play
+              </button>
+
+              {audioUrls.length === 0 &&
+                <span style={{ color: "gray" }}>No narration available.</span>
+              }
             </span>
           </label>
 
           {Util.isEmptyString(error) ? (
             <CanvasWrapper
+              ref={canvasRef}
               animationCode={tsCode}
               showGrid={showGrid}
               onError={(errMsg) => setError("Canvas error: " + errMsg)}

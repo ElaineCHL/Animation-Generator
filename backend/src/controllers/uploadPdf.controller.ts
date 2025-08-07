@@ -101,3 +101,91 @@ export default async function PdfController(
     });
   }
 }
+
+// Optional: Batch processing version for better performance
+// export async function PdfControllerBatch(
+//   req: Request,
+//   res: Response,
+// ): Promise<void> {
+//   try {
+//     const pdfBuffer = req.file?.buffer;
+//     if (!pdfBuffer) {
+//       res.status(400).json({ error: "No file uploaded" });
+//       return;
+//     }
+
+//     // Parse PDF content
+//     const data = await pdfParse(pdfBuffer);
+//     const rawText = data.text;
+
+//     const splitter = new RecursiveCharacterTextSplitter({
+//       chunkSize: 500,
+//       chunkOverlap: 100,
+//     });
+
+//     // Split raw text into chunks
+//     const chunks = await splitter.createDocuments([rawText]);
+
+//     // Process chunks in batches to improve performance
+//     const batchSize = 10; // Adjust based on rate limits
+//     const batches = [];
+
+//     for (let i = 0; i < chunks.length; i += batchSize) {
+//       batches.push(chunks.slice(i, i + batchSize));
+//     }
+
+//     for (const batch of batches) {
+//       // Prepare input for batch embedding
+//       const batchTexts = batch.map((chunk) => chunk.pageContent);
+
+//       // Generate embeddings for the batch
+//       const response = await aiClient.path("/embeddings").post({
+//         body: {
+//           input: batchTexts,
+//           model: modelName,
+//         },
+//       });
+
+//       if (isUnexpected(response)) {
+//         throw new Error(`GitHub AI API error: ${response.body.error}`);
+//       }
+
+//       // Store each chunk with its corresponding embedding
+//       for (let i = 0; i < batch.length; i++) {
+//         const embedding = response.body.data[i].embedding;
+
+//         if (!Array.isArray(embedding)) {
+//           throw new Error("Invalid embedding format: expected number[]");
+//         }
+
+//         const title = req.file!.originalname;
+//         const content = batch[i].pageContent;
+
+//         await client.data.creator()
+//           .withClassName("Document")
+//           .withProperties({
+//             title,
+//             content,
+//           })
+//           .withVector(embedding)
+//           .do();
+//       }
+//     }
+
+//     res.status(200).json({
+//       message:
+//         "File processed and stored in Weaviate using GitHub AI embeddings (batched).",
+//     });
+//   } catch (err) {
+//     if (err instanceof Error) {
+//       console.error(err.stack);
+//     }
+//     console.error("Failed to process file", err);
+
+//     res.status(500).json({
+//       error: `Failed to process file: ${
+//         err instanceof Error ? err.message : String(err)
+//       }`,
+//     });
+//   }
+// }

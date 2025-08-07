@@ -10,8 +10,15 @@ statement
     | animation_stmt
     | block_stmt
     | sleep_stmt
+    | tts_stmt
     ;
 
+// TTS statement
+tts_stmt
+    : TTS_COMMENT
+    ;
+
+// Shape statements
 shape_stmt
     : ID '=' 'circle' 'at' position 'radius' number color?
     | ID '=' 'dot' 'at' position color?
@@ -22,10 +29,12 @@ shape_stmt
     | ID '=' 'text' STRING 'at' position size? color?
     ;
 
+// Group statement
 group_stmt
     : ID '=' 'group' '{' ID (',' ID)* '}'
     ;
 
+// Animation statements
 animation_stmt
     : 'move' ID 'to' position duration?
     | 'fadeIn' ID duration?
@@ -34,6 +43,7 @@ animation_stmt
     | 'rotate' ID 'by' number ('around' position)? duration?
     ;
 
+// Block and sleep
 block_stmt
     : 'parallel' '{' statement* '}'
     ;
@@ -54,6 +64,11 @@ STRING        : '"' (~["\\] | '\\' .)* '"' ;
 COLOR         : 'red' | 'green' | 'blue' | 'yellow' | 'brown' | 'black' | 'white' | 'orange' | 'purple' ;
 ID            : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMBER        : '-'? [0-9]+ ('.' [0-9]+)? ;
+
+// TTS comment
+TTS_COMMENT   : 'TTS:' ~[\r\n]* ;
+
+// Skip regular comments and whitespace
 LINE_COMMENT  : '//' ~[\r\n]* -> skip ;
 BLOCK_COMMENT : '/*' .*? '*/' -> skip ;
 WS            : [ \t\r\n]+ -> skip ;

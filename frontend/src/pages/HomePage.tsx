@@ -25,7 +25,6 @@ const HomePage = () => {
     try {
       const res = await axiosInstance.post("/prompt", { prompt, model });
       setResponse(res.data.result);
-      console.log(res.data.result);
     } catch (err: unknown) {
       if (isAxiosError(err)) {
         console.error("Axios Error:", err.response?.data);

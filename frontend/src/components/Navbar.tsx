@@ -10,13 +10,13 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-base-300 border-b border-base-content/10">
-      <div className="mx-auto max-w-6xl p-4">
+    <header className="border-b border-bottom bg-slate-100">
+      <div className="mx-auto max-w-7xl p-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-extrabold text-primary tracking-tight">
+          <Link to="/" className="text-2xl font-medium text-primary tracking-tight">
             My Animation Tool
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <Link
               to="/"
               className={`btn ${isActive('/') ? 'font-bold text-blue-600' : 'font-extralight'} hover:text-blue-600 hover:-translate-y-1 transition duration-300 ease-in-out`}

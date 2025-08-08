@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Editor from "@monaco-editor/react";
+import Editor, { type OnMount } from "@monaco-editor/react";
 import { Util } from "../lib/Utils";
 import AxiosInstance from "../lib/axios";
 import CanvasWrapper, { type CanvasWrapperHandle } from "../components/CanvasWrapper";
@@ -65,6 +65,15 @@ const EditorPage = () => {
     }
   }
 
+  const handleEditorMount: OnMount = (editorInstance) => {
+    const model = editorInstance.getModel(); // select text by default
+    if (model) {
+      const fullRange = model.getFullModelRange();
+      editorInstance.setSelection(fullRange);
+      editorInstance.focus();
+    }
+  };
+
   return (
     <div className="py-6 max-w-7xl mx-auto space-y-4">
       <div className="grid grid-cols-2 gap-1">
@@ -78,6 +87,7 @@ const EditorPage = () => {
             defaultLanguage="plaintext"
             value={dsl}
             onChange={(value) => setDsl(value ?? "")}
+            onMount={handleEditorMount}
           />
         </div>
 

@@ -264,4 +264,16 @@ export class Group {
       requestAnimationFrame(animate);
     });
   }
+
+  public fadeIn(duration?: number) {
+    for (const shape of this.getShapes()) {
+      shape.fadeIn(duration);
+    }
+  }
+  
+  public fadeOut(duration?: number) {
+    for (const shape of this.getShapes()) {
+      shape.fadeOut(duration);
+    }
+  }
 }

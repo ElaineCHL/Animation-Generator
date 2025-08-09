@@ -14,7 +14,7 @@ interface UploadFormProps {
 const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isLoading }) => {
   const [formState, setFormState] = useState<FormState>({
     prompt: '',
-    model: 'gpt-4o',
+    model: 'openai/gpt-4o',
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -62,9 +62,9 @@ const UploadForm: React.FC<UploadFormProps> = ({ onSubmit, isLoading }) => {
             className="w-full border p-2 rounded"
             required
           >
-            <option value="" disabled>-- Select a model --</option>
-            <option value="gpt-4o">OpenAI GPT-4o</option>
-            <option value="gpt-4.1">OpenAI GPT-4.1</option>
+            <option disabled>-- Select a model --</option>
+            <option value="openai/gpt-4o">OpenAI GPT-4o</option>
+            <option value="openai/gpt-5" disabled>OpenAI GPT-5</option>
           </select>
         </div>
 

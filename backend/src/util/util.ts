@@ -6,4 +6,8 @@ export default class Util {
       fs.mkdirSync(dirPath, { recursive: true });
     }
   }
+
+  static isEmptyString(value: unknown): boolean {
+    return typeof value === "string" && value.trim().length === 0;
+  }
 }

@@ -1,14 +1,16 @@
 import express from "express";
 import multer from "multer";
-import parseController from "../controllers/parser.controller";
-import promptController from "../controllers/prompt.controller";
-import PdfController from "../controllers/uploadPdf.controller";
+import dslController from "../controllers/dslController";
+import pdfRagController from "../controllers/pdfRagController";
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: multer.memoryStorage() }); // store in memory
 
-router.post("/translate", parseController);
-router.post("/prompt", promptController);
-router.post("/upload-pdf", upload.single("file"), PdfController);
+router.post("/translate", dslController);
+router.post(
+  "/rag",
+  upload.single("file"), // parse multipart/form-data request
+  pdfRagController,
+);
 
 export default router;

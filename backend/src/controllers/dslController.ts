@@ -6,7 +6,7 @@ import { DSLToTSVisitor } from "../DSL/DSLToTSVisitor";
 import { CustomErrorListener } from "../DSL/CustomErrorListener";
 import { generateTTS } from "../util/gtts";
 
-export default async function parseController(req: Request, res: Response) {
+export default async function dslController(req: Request, res: Response) {
   try {
     const data = req.body.data;
     const chars = CharStreams.fromString(data);

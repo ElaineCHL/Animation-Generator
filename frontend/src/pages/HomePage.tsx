@@ -1,29 +1,21 @@
 import { useState } from "react";
 import axiosInstance, { isAxiosError } from "../lib/axios";
-import { Util } from "../lib/Utils";
 import Form from "../components/Form";
 import CopyButton from "../components/CopyButton";
-import FileUploader from "../components/FileUploader";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState("");
   const [error, setError] = useState("");
 
-  const handleFormSubmit = async ({ prompt, model }: { prompt: string; model: string }) => {
+  const handleFormSubmit = async (formData: FormData) => {
     setIsLoading(true);
     setError("");
 
-    if (!model) {
-      setError("Model not selected.");
-      return;
-    }
-    if (Util.isEmptyString(prompt)) {
-      setError("Prompt is empty.");
-      return;
-    }
     try {
-      const res = await axiosInstance.post("/prompt", { prompt, model });
+      const res = await axiosInstance.post("/rag", formData);
+      console.log("Full response data:", res.data);
+      console.log(`file_uploaded = ${JSON.stringify(res.data.file_uploaded)}`);
       setResponse(res.data.result);
     } catch (err: unknown) {
       if (isAxiosError(err)) {
@@ -40,7 +32,6 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-white text-gray-800 px-6 py-8">
-      <FileUploader />
       <Form onSubmit={handleFormSubmit} isLoading={isLoading} />
       {error && (
         <div className="mt-4 max-w-2xl mx-auto text-red-600 bg-red-100 border border-red-300 rounded p-4">

@@ -11,6 +11,7 @@ const EditorPage = () => {
   const [error, setError] = useState("");
   const [showGrid, setShowGrid] = useState(true);
   const [audioUrls, setAudioUrls] = useState<string[]>([]);
+  const [isFetchingTSCode, setIsFetchingTSCode] = useState(true);
 
   const canvasRef = useRef<CanvasWrapperHandle>(null);
 
@@ -29,6 +30,7 @@ const EditorPage = () => {
 
   async function translateDSL(dsl: string): Promise<string> {
     setError("");
+    setIsFetchingTSCode(true);
     try {
       const response = await AxiosInstance.post("/translate", {
         data: dsl,
@@ -45,6 +47,8 @@ const EditorPage = () => {
       }
       setError(errorMessage);
       return errorMessage;
+    } finally {
+      setIsFetchingTSCode(false);
     }
   }
 
@@ -96,15 +100,23 @@ const EditorPage = () => {
             <label className="font-bold">Generated TypeScript</label>
             <CopyButton textToCopy={tsCode} />
           </div>
-          <Editor
-            height="300px"
-            defaultLanguage="typescript"
-            value={tsCode}
-            theme="vs-dark"
-            options={{
-              readOnly: true,
-            }}
-          />
+
+          <div className="relative">
+            <Editor
+              height="300px"
+              defaultLanguage="typescript"
+              value={tsCode}
+              theme="vs-dark"
+              options={{
+                readOnly: true,
+              }}
+            />
+            {isFetchingTSCode && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="col-span-2">
@@ -120,7 +132,11 @@ const EditorPage = () => {
                 <span>Show Gridlines</span>
               </label>
 
-              <button className="bg-blue-600 text-white rounded hover:bg-blue-700 px-4 py-2 m-2" onClick={playNarrationAndAnimation}>
+              <button
+                className="bg-blue-600 text-white rounded hover:bg-blue-700 px-4 py-2 m-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                onClick={playNarrationAndAnimation}
+                disabled={isFetchingTSCode}
+              >
                 Play
               </button>
 

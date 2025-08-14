@@ -50,6 +50,7 @@ export async function queryPineconeAndLLM(
   question: string,
   queryModel: string,
 ) {
+  logger.info("Performing semantic search...");
   try {
     // Get query embedding
     const embeddingResp = await aiClient.path("/embeddings").post({

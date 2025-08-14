@@ -45,7 +45,10 @@ Each shape must be declared with a unique variable ID and follows this format:
 - `fadeOut <shape> over <duration>s`
 
 - Animations are sequential by default.  
-- Use `parallel { ... }` to run multiple animations at the same time.
+- Use `parallel { ... }` to run multiple animations at the same time. For example, `parallel {
+move t1 to (200, 200)
+move c2 to (10, 10)
+}`
 - Use `group { ... }` to bundle shapes into a single body. For example, `group1 = group {text1, circle1, circle2, square1}`
 
 - Use `sleep <duration>s` to pause any animations.

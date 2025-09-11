@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Editor, { type OnMount } from "@monaco-editor/react";
 import { Util } from "../lib/Utils";
 import AxiosInstance from "../lib/axios";
+import { registerDSLLanguage } from "../lib/dslLanguage";
 import CanvasWrapper, { type CanvasWrapperHandle } from "../components/CanvasWrapper";
 import CopyButton from "../components/CopyButton";
 
@@ -69,8 +70,11 @@ const EditorPage = () => {
     }
   }
 
-  const handleEditorMount: OnMount = (editorInstance) => {
-    const model = editorInstance.getModel(); // select text by default
+  const handleEditorMount: OnMount = (editorInstance, monaco) => {
+    registerDSLLanguage(monaco);
+    monaco.editor.setTheme("dslTheme");
+
+    const model = editorInstance.getModel();
     if (model) {
       const fullRange = model.getFullModelRange();
       editorInstance.setSelection(fullRange);
@@ -88,7 +92,7 @@ const EditorPage = () => {
           </div>
           <Editor
             height="300px"
-            defaultLanguage="plaintext"
+            defaultLanguage="dsl"
             value={dsl}
             onChange={(value) => setDsl(value ?? "")}
             onMount={handleEditorMount}

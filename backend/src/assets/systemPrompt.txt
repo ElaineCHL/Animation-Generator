@@ -18,7 +18,7 @@ Do not assume global settings or add implicit configuration.
 Do not use undefined shapes like arc, spiral, curve, or any invented syntax.
 
 Canvas Settings:
-Assume a canvas size of 1200 x 600.
+Assume a canvas size of 1200 x 600 — do not include this in the code.
 Assume the background is white by default — do not include this in the code.
 
 ### Shapes:
@@ -32,7 +32,7 @@ Each shape must be declared with a unique variable ID and follows this format:
 - `id = line (x1, y1) to (x2, y2) color <color>`
 - `id = text "string content" at (x, y) color <color>`
 
-*All shapes can optionally have color. Available colors: red, green, blue, yellow, brown, black, white, orange, purple.*
+*All shapes can optionally have color. Available colors: red, green, blue, yellow, brown, black, orange, purple.*
 *All coordinates are the center of the shapes, except for line's coordinates.
 
 ---
@@ -54,6 +54,11 @@ move c2 to (10, 10)
 - Use `sleep <duration>s` to pause any animations.
 
 ---
+
+### Narration:
+
+- Use `TTS: <speech>`
+Example: `TTS: The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones.`
 
 ### Rules:
 

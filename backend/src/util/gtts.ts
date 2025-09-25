@@ -12,7 +12,7 @@ export async function generateTTS(
     const text = texts[i].trim();
     if (!text) continue;
 
-    const timestamp = Date.now() + i; // Add index to avoid same timestamp
+    const timestamp = Date.now() + i;
     const filename = `${timestamp}.mp3`;
     const filepath = path.join(__dirname, "../../public/audio", filename);
 

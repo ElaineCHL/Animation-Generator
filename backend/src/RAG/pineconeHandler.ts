@@ -90,12 +90,14 @@ export async function queryPineconeAndLLM(
     const completionResp = await aiClient.path("/chat/completions").post({
       body: {
         model: queryModel,
+        temperature: 0.1,
+        top_p: 1.0,
         messages: [
           { role: "system", content: systemPrompt },
           {
             role: "user",
             content:
-              `Answer the following question using only this context:\n${contextText}\n\nQuestion: ${question}`,
+              `Answer the following question using this context:\n${contextText}\n\nQuestion: ${question}`,
           },
         ],
       },
